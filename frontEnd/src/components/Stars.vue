@@ -7,7 +7,7 @@
             <IFRAME :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`"></IFRAME>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">HD{{star.Name}}</div>
+                <div class="headline">{{star.Name}}</div>
                 <div class="black--text body-1">Price: {{star.Price}} USD </div>
               </div>
             </v-card-title>
@@ -24,7 +24,7 @@
             <v-card-text class="justify-center">
               <span class="white--text body-2"> {{star.Info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text">Learn more about HD {{star.Name}}</div>
+              <div class="white--text">Learn more about HD{{star.hd}}</div>
               <a class="red--text" :href="`${wikipediaUrl} ${star.Name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
