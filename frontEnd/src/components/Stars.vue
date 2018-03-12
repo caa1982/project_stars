@@ -3,7 +3,7 @@
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around row wrap text-xs-center>
           <div v-if="stars.length !=0" v-for="(star, index) in stars" :key="index">
-          <v-card class="card_width" color="transparent">
+          <v-card class="card_stars_width" color="transparent">
             <IFRAME :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`"></IFRAME>
             <v-card-title primary-title class="card_title justify-center">
               <div>
@@ -17,7 +17,7 @@
             </v-btn>
             </v-card-action>
           </v-card>
-          <v-card class="card_width margin_bottom">
+          <v-card class="card_srtars_width margin_bottom">
           <v-expansion-panel dark>
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style>
-.card_width {
+.margin_stars_top {
   width: 400px !important;
 }
 IFRAME {
