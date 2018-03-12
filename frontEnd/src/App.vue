@@ -89,16 +89,40 @@
         v-if="MetaMaskConnected != false"
       ></v-text-field>
       <v-spacer></v-spacer>
-        <v-badge color="red" v-if="MetaMaskConnected != false" overlap>
+      
+        <v-badge class="margin_badge" color="red" v-if="MetaMaskConnected != false" overlap>
           <span slot="badge">0</span>
-          <v-icon color="grey darken-1" medium>
+          <v-menu
+            origin="center center"
+            transition="scale-transition"
+            :nudge-width="200"
+            bottom
+            absolute
+          >
+          <v-icon color="grey darken-1" medium slot="activator">
             shopping_cart
           </v-icon>
+            <v-card>
+              <v-list class="orange darken-1 white--text">
+                <v-list-tile>
+                  <v-list-tile-title>Shopping</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-card>
+          </v-menu>
         </v-badge>
-        <v-badge :color="metaMaskColor" overlap>  
+        
+        <v-badge class="margin_badge" :color="metaMaskColor" overlap>  
           <v-icon slot="badge" color="white">{{metaMaskIcon}}</v-icon>
-          <v-menu open-on-hover bottom offset-y>
+          <v-menu 
+            origin="center center"
+            transition="scale-transition"
+            :nudge-width="200"
+            bottom
+            absolute
+          >
             <img id="MetaMask" slot="activator" src="./assets/Metamask.png">
+            <v-card>
             <v-list class="orange darken-1 white--text" v-if="MetaMaskConnected != false">
               <v-list-tile>
                 <v-list-tile-title>Adrress: {{ address[0].substring(0,15) }}</v-list-tile-title>
@@ -107,6 +131,7 @@
                 <v-list-tile-title>Balance: {{ balance }}</v-list-tile-title>
               </v-list-tile>
             </v-list>
+            </v-card>
           </v-menu>
         </v-badge>
     </v-toolbar>
@@ -132,7 +157,8 @@ import MetaMask from './api/modules/web3Connection.js'
       MetaMaskConnected: false,
       balance: 0,
       intervalId: "",
-      message: ""
+      message: "",
+      menu: false,
     }),
     created() {
       MetaMask.eth.net.getNetworkType().then(network => {
@@ -209,10 +235,7 @@ import MetaMask from './api/modules/web3Connection.js'
     margin-left: 2vh;
     width: 2vw;
   }
-  .navigation-drawer__border {
-    display: none;
-  }
-  .badge {
+  .margin_badge {
     right: 1vw;
     margin-top: 1vh;
   }
