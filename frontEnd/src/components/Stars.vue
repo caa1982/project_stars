@@ -4,11 +4,11 @@
         <v-layout justify-space-around row wrap text-xs-center>
           <div v-if="stars.length !=0" v-for="(star, index) in stars" :key="index">
           <v-card class="card_width" color="transparent">
-            <v-card-media class="card_media" :src="stars.img"></v-card-media>
+            <IFRAME :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`"></IFRAME>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{stars.Name}}</div>
-                <div class="black--text body-1">Price: {{stars.Price}} USD </div>
+                <div class="headline">HD{{star.Name}}</div>
+                <div class="black--text body-1">Price: {{star.Price}} USD </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -22,10 +22,10 @@
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
             <v-card-text class="justify-center">
-              <span class="white--text body-2"> {{stars.Info}} </span>
+              <span class="white--text body-2"> {{star.Info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text">Learn more about {{stars.Name}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${stars.Name} _(stars)`" target="_blank">here</a>
+              <div class="white--text">Learn more about HD {{star.Name}}</div>
+              <a class="red--text" :href="`${wikipediaUrl} ${star.Name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>
@@ -47,8 +47,7 @@ export default {
   },
   created() {
     api.getStars(stars => {
-      console.log('stars: ', stars);
-       //this.stars = stars;
+       this.stars = stars.slice(0, 8);
     });
   }
 }
@@ -56,10 +55,11 @@ export default {
 
 <style>
 .card_width {
-  width: 250px;
+  width: 400px !important;
 }
-.card_media {
+IFRAME {
   height: 250px !important;
+  width: 400px !important;
 }
 .innerDivider{
   margin: 1vh;
