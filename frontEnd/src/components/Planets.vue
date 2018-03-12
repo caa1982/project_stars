@@ -3,7 +3,7 @@
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around row wrap text-xs-center>
           <div v-if="planets.length !=0" v-for="(planet, index) in planets" :key="index">
-          <v-card class="card_width" color="transparent">
+          <v-card class="card_stars_width" color="transparent">
             <v-card-media class="card_media" :src="planet.img"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
@@ -17,7 +17,7 @@
             </v-btn>
             </v-card-action>
           </v-card>
-          <v-card class="card_width margin_bottom">
+          <v-card class="card_stars_width margin_bottom">
           <v-expansion-panel dark>
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
@@ -54,11 +54,12 @@ export default {
 </script>
 
 <style>
-.card_width {
-  width: 250px;
+.card_stars_width {
+  width: 400px;
 }
-.card_media {
+IFRAME {
   height: 250px !important;
+  width: 400px !important;
 }
 .innerDivider{
   margin: 1vh;
