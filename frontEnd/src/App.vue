@@ -93,11 +93,8 @@
         <v-badge class="margin_badge" color="red" v-if="MetaMaskConnected != false" overlap>
           <span slot="badge">0</span>
           <v-menu
-            origin="center center"
-            transition="scale-transition"
-            :nudge-width="200"
-            bottom
-            absolute
+            bottom 
+            offset-y
           >
           <v-icon color="grey darken-1" medium slot="activator">
             shopping_cart
@@ -114,15 +111,15 @@
         
         <v-badge class="margin_badge" :color="metaMaskColor" overlap>  
           <v-icon slot="badge" color="white">{{metaMaskIcon}}</v-icon>
+          
           <v-menu 
-            origin="center center"
-            transition="scale-transition"
-            :nudge-width="200"
-            bottom
-            absolute
+            bottom 
+            offset-y
           >
             <img id="MetaMask" slot="activator" src="./assets/Metamask.png">
-            <v-card>
+            
+            <v-card class="margin_card transparent">
+            <div class="div"></div>
             <v-list class="orange darken-1 white--text" v-if="MetaMaskConnected != false">
               <v-list-tile>
                 <v-list-tile-title>Adrress: {{ address[0].substring(0,15) }}</v-list-tile-title>
@@ -131,7 +128,9 @@
                 <v-list-tile-title>Balance: {{ balance }}</v-list-tile-title>
               </v-list-tile>
             </v-list>
+            
             </v-card>
+            
           </v-menu>
         </v-badge>
     </v-toolbar>
@@ -233,10 +232,28 @@ import MetaMask from './api/modules/web3Connection.js'
   }
   #MetaMask {
     margin-left: 2vh;
-    width: 2vw;
+    width: 30px;
   }
   .margin_badge {
     right: 1vw;
     margin-top: 1vh;
   }
+  .margin_menu {
+    margin-top: 5vh;
+  }
+  .margin_card {
+    margin-top: 2vh;
+  }
+.div{
+  width: 0;
+  height: 0;
+  margin-left:auto; 
+  margin-right: 1.4vw;
+  border-style: solid;
+  margin-top: 0;
+  margin-bottom: 0.5vh;
+  border-width: 0 7.5px 15px 7.5px;
+  border-color: transparent transparent #0900ff transparent;
+} 
+
 </style>
