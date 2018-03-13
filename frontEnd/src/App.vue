@@ -28,7 +28,7 @@
             <v-list-tile-title class="white--text">Planets</v-list-tile-title>
           </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile :to="{name:'Stars'}">
+      <v-list-tile :to="{name:'Exoplanets'}">
           <v-list-tile-action>
             <v-icon color="green">fas fa-globe</v-icon>
           </v-list-tile-action>
@@ -36,7 +36,7 @@
             <v-list-tile-title class="white--text">Exoplanets</v-list-tile-title>
           </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile :to="{name:'Stars'}">
+      <v-list-tile :to="{name:'DwarfPlanets'}">
           <v-list-tile-action>
             <v-icon color="light-blue" small>fas fa-globe</v-icon>
           </v-list-tile-action>

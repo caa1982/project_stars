@@ -2,7 +2,7 @@ const express         = require('express');
 const router          = express.Router();
 const controller      = require("../controllers/controller");
 
-router.get("/stars", controller.getStars);
+router.post("/stars", controller.getStars);
 
 router.get("/planets", controller.getPlanets);
 

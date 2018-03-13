@@ -5,6 +5,8 @@ import SkyMap from '@/components/SkyMap'
 import LandingPage from '@/components/LandingPage'
 import Planets from '@/components/Planets'
 import PlanetSatelites from '@/components/PlanetSatelites'
+import DwarfPlanets from '@/components/DwarfPlanets'
+import Exoplanets from '@/components/Exoplanets'
 
 Vue.use(Router)
 
@@ -27,9 +29,19 @@ export default new Router({
       component: PlanetSatelites
     },
     {
+      path: '/dwarfPlanets',
+      name: 'DwarfPlanets',
+      component: DwarfPlanets
+    },
+    {
       path: '/planets',
       name: 'Planets',
       component: Planets
+    },
+    {
+      path: '/exoplanets',
+      name: 'Exoplanets',
+      component: Exoplanets
     },
     {
       path: '/skyMap',

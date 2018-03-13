@@ -1,8 +1,11 @@
-const mongoose      = require('mongoose');
+const mongoose          = require('mongoose');
 const SpaceObjectsModel = require("../models/spaceObjects");
 
 exports.getStars = (req, res) => {
-    SpaceObjectsModel.find({Object: "star"}, (err, result) => {
+    
+    const pageNum = req.body.page;
+    
+    SpaceObjectsModel.paginate({Object: "star"}, { page: pageNum, limit: 9 }, (err, result) => {
       if(err) {
         console.log(err)
       }

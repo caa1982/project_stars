@@ -2,9 +2,11 @@
     <v-flex xs12 sm10 offset-sm1>
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around row wrap text-xs-center>
-          <div v-if="stars.length !=0" v-for="(star, index) in stars" :key="index">
+          <div 
+            v-for="(star, index) in stars" 
+            :key="index">
           <v-card class="card_stars_width" color="transparent">
-            <IFRAME :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`"></IFRAME>
+            <IFRAME class="iframe_stars" :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`" frameBorder="0" sandbox="allow-scripts allow-same-origin"></IFRAME>
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{star.Name}}</div>
@@ -32,6 +34,7 @@
           </v-card>
           </div>
         </v-layout>
+        <v-progress-linear :v-if="loading === true && stars.length() != 0" :indeterminate="true"></v-progress-linear>
       </v-container>
     </v-flex>
 </template>
@@ -42,22 +45,46 @@ export default {
   data() {
     return {
       stars: [],
+      loading: true,
+      page: 1,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     }
   },
+  methods: {
+    getStars: function () {
+      api.getStars(this.page, stars => {
+        this.stars = this.stars.concat(stars);
+        this.loading = false;
+      });
+    },
+    handleScroll: function (event) {
+      var d = document.documentElement;
+      var offset = d.scrollTop + window.innerHeight;
+      var height = d.offsetHeight;
+
+      console.log('offset = ' + offset);
+      console.log('height = ' + height);
+
+      if (offset === height) {
+        this.getStars();
+        this.page++
+      }
+    }
+  },
   created() {
-    api.getStars(stars => {
-       this.stars = stars.slice(0, 8);
-    });
+    window.addEventListener('scroll', this.handleScroll);
+    this.getStars();
+  },
+  destroyed: function () {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 }
 </script>
-
 <style>
 .margin_stars_top {
   width: 400px !important;
 }
-IFRAME {
+.iframe_stars {
   height: 250px !important;
   width: 400px !important;
 }
