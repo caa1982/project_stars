@@ -3,10 +3,22 @@
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around row wrap text-xs-center>
           <div 
-            v-for="(star, index) in stars" 
-            :key="index">
+            v-for="(star, index) in stars"
+            :key="index"
+            >
           <v-card class="card_stars_width" color="transparent">
-            <IFRAME class="iframe_stars" :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`" frameBorder="0" sandbox="allow-scripts allow-same-origin"></IFRAME>
+            <IFRAME 
+              class="iframe_stars" 
+              :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`" 
+              frameBorder="0" 
+              sandbox="allow-scripts allow-same-origin"
+              v-if="star.Name != 'Sun'"
+            ></IFRAME>
+            <v-card-media 
+              class="sun" 
+              :src="star.img"
+              v-if="star.Name === 'Sun'"
+            ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{star.Name}}</div>
@@ -14,8 +26,11 @@
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline color="green">
+            <v-btn outline v-if="! cart.some(e => e.Name === star.Name)" @click="addToCart(star)" color="green">
               <v-icon>add_shopping_cart</v-icon>
+            </v-btn>
+            <v-btn outline v-if=" cart.some(e => e.Name === star.Name)" @click="removeFromCart(star)" color="red">
+              <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
           </v-card>
@@ -40,55 +55,64 @@
 </template>
 <script>
 import api from "@/api";
+import { EventBus } from "@/modules/eventBus.js";
 export default {
-  name: 'Stars',
+  name: "Stars",
   data() {
     return {
       stars: [],
       loading: true,
-      page: 1,
+      page: 0,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
-    }
+    };
   },
+  props: ["cart"],
   methods: {
-    getStars: function () {
+    getStars: function() {
+      this.page++;
       api.getStars(this.page, stars => {
         this.stars = this.stars.concat(stars);
         this.loading = false;
       });
     },
-    handleScroll: function (event) {
+    handleScroll: function(event) {
       var d = document.documentElement;
       var offset = d.scrollTop + window.innerHeight;
       var height = d.offsetHeight;
-
-      console.log('offset = ' + offset);
-      console.log('height = ' + height);
-
+        
       if (offset === height) {
         this.getStars();
-        this.page++
       }
+    },
+    addToCart: function(object) {
+      EventBus.$emit("add", object);
+    },
+    removeFromCart: function(object) {
+      EventBus.$emit("remove", object);
     }
   },
   created() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
     this.getStars();
   },
-  destroyed: function () {
-    window.removeEventListener('scroll', this.handleScroll);
+  destroyed: function() {
+    window.removeEventListener("scroll", this.handleScroll);
   }
-}
+};
 </script>
 <style>
 .margin_stars_top {
+  width: 400px !important;
+}
+.sun {
+  height: 250px !important;
   width: 400px !important;
 }
 .iframe_stars {
   height: 250px !important;
   width: 400px !important;
 }
-.innerDivider{
+.innerDivider {
   margin: 1vh;
 }
 .card_title {
@@ -97,7 +121,7 @@ export default {
 .margin_bottom {
   margin-bottom: 2vh;
 }
-.margin_top{
+.margin_top {
   margin-top: 2vh;
 }
 </style>

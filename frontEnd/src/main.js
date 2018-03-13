@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import '../node_modules/vuetify/dist/vuetify.css'
+import Clipboard from 'v-clipboard'
 
+Vue.use(Clipboard)
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false

@@ -52,14 +52,6 @@
             <v-list-tile-title class="white--text">Planet Satellites</v-list-tile-title>
           </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile :to="{name:'Stars'}">
-          <v-list-tile-action>
-            <v-icon color="deep-purple">fas fa-briefcase</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="white--text">My Portfolio</v-list-tile-title>
-          </v-list-tile-content>
-      </v-list-tile>
       <v-list-tile :to="{name:'SkyMap'}">
           <v-list-tile-action>
             <v-icon color="indigo">fas fa-map</v-icon>
@@ -69,12 +61,12 @@
           </v-list-tile-content>
       </v-list-tile>
       <v-list-tile :to="{name:'Stars'}">
-          <v-list-tile-action>
-            <v-icon color="grey darken-1">fas fa-shopping-cart</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="white--text">Shopping Cart</v-list-tile-title>
-          </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon color="deep-purple">fas fa-briefcase</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="white--text">My Portfolio</v-list-tile-title>
+            </v-list-tile-content>
       </v-list-tile>
     </v-list>
     </v-navigation-drawer>
@@ -91,7 +83,7 @@
       <v-spacer></v-spacer>
       
         <v-badge class="margin_badge" color="red" v-if="MetaMaskConnected != false" overlap>
-          <span slot="badge">0</span>
+          <span slot="badge">{{cart.length}}</span>
           <v-menu
             bottom 
             offset-y
@@ -99,12 +91,18 @@
           <v-icon color="grey darken-1" medium slot="activator">
             shopping_cart
           </v-icon>
-            <v-card>
-              <v-list class="orange darken-1 white--text">
-                <v-list-tile>
-                  <v-list-tile-title>Shopping</v-list-tile-title>
-                </v-list-tile>
-              </v-list>
+            <v-card class="margin_card grey darken-4 text-xs-center">
+            <v-card-title class="indigo">
+              <div class="white--text">Recently added items</div>
+            </v-card-title> 
+            <v-card-text class="card_trext_margin indigo">
+              <div class="white--text">Total: 0 <v-icon small>fab fa-ethereum</v-icon></div>
+            </v-card-text>
+             <v-card-actions>
+            <v-btn outline color="white" large>
+              Check out
+            </v-btn>
+            </v-card-actions>
             </v-card>
           </v-menu>
         </v-badge>
@@ -118,24 +116,20 @@
           >
             <img id="MetaMask" slot="activator" src="./assets/Metamask.png">
             
-            <v-card class="margin_card transparent">
-            <div class="top_card"></div>
-            <v-list class="orange darken-1 white--text" v-if="MetaMaskConnected != false">
-              <v-list-tile>
-                <v-list-tile-title>Adrress: {{ address[0].substring(0,15) }}</v-list-tile-title>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-title>Balance: {{ balance }}</v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-            
+            <v-card class="margin_card transparent text-xs-center">
+            <v-card-title class="orange lighten-1">
+            <div class="black--text" v-if="MetaMaskConnected != false">
+              <div class="pointer" v-clipboard="address[0]">{{ address[0] }}</div>
+              <span><v-icon class="fab fa-ethereum"></v-icon> {{ balance }}</span>
+            </div>
+            </v-card-title>
             </v-card>
             
           </v-menu>
         </v-badge>
     </v-toolbar>
     <v-content>
-      <router-view :message="message"></router-view>
+      <router-view :message="message" :cart="cart"></router-view>
     </v-content>
     <v-footer color="black" app fixed>
        <v-layout row wrap justify-center>
@@ -145,7 +139,8 @@
   </v-app>
 </template>
 <script>
-import MetaMask from './api/modules/web3Connection.js' 
+import MetaMask from './api/modules/web3Connection.js'
+import { EventBus } from '@/modules/eventBus.js'
   export default {
     data: () => ({
       drawer: null,
@@ -158,6 +153,7 @@ import MetaMask from './api/modules/web3Connection.js'
       intervalId: "",
       message: "",
       menu: false,
+      cart: []
     }),
     created() {
       MetaMask.eth.net.getNetworkType().then(network => {
@@ -167,9 +163,16 @@ import MetaMask from './api/modules/web3Connection.js'
       this.intervalId = setInterval(() => {
         this.addressMetaMask();
       }, 1000);
-    },
-    destroyed() {
-      clearInterval(this.intervalId);
+      //this.cart = JSON.parse(localStorage.getItem("cart"));
+      console.log('this.cart: ', this.cart);
+      EventBus.$on("add", object => {
+        this.cart.push(object);
+        //localStorage.setItem("cart", JSON.stringify(this.cart));
+      })
+      EventBus.$on("remove", object => {
+        this.cart = this.cart.filter(el => el.Name !== object.Name );
+        //localStorage.setItem("cart", JSON.stringify(this.cart));
+      })
     },
     methods: {
       addressMetaMask: async function() {
@@ -243,9 +246,16 @@ import MetaMask from './api/modules/web3Connection.js'
   }
   .margin_card {
     margin-top: 2vh;
+    border-style: solid;
+    border-width: 5px;
   }
-.top_card{
-  height: 1vh;
-} 
-
+  .pointer {
+    cursor: copy;
+  }
+  .fa-ethereum {
+    margin-bottom: 5px;
+  }
+  .card_trext_margin{
+    margin-top: 1vh;
+  }
 </style>

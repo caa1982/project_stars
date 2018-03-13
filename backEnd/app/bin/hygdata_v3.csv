@@ -1,5 +1,4 @@
 hd,Name,Object,Info,Price,img,Skymap,wikipedia
-0,Sun,Star," The Sun is the star at the center of the Solar System. It is a nearly perfect sphere of hot plasma, with internal convective motion that generates a magnetic field via a dynamo process. It is by far the most important source of energy for life on Earth. ",10000000,https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg/1024px-Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg,no,
 -1,Moon,Satellite,"The Moon is an astronomical body that orbits planet Earth, being Earth's only permanent natural satellite. It is the fifth-largest natural satellite in the Solar System, and the largest among planetary satellites relative to the size of the planet that it orbits",1000000,https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/225px-FullMoon2010.jpg,no,
 -2,Mercury,Planet,Mercury is the smallest and innermost planet in the Solar System,1000000,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Mercury_in_color_-_Prockter07-edit1.jpg/1024px-Mercury_in_color_-_Prockter07-edit1.jpg,no,
 -3,Mars,Planet,Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury,1000000,https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/1024px-OSIRIS_Mars_true_color.jpg,no,
@@ -37,6 +36,7 @@ hd,Name,Object,Info,Price,img,Skymap,wikipedia
 -35,Oberon_(moon),Satellite,,200000,https://upload.wikimedia.org/wikipedia/commons/0/09/Voyager_2_picture_of_Oberon.jpg,no,
 -36,Triton_(moon),Satellite,,200000,https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Triton_moon_mosaic_Voyager_2_%28large%29.jpg/300px-Triton_moon_mosaic_Voyager_2_%28large%29.jpg,no,
 -37,Charon_(moon),Satellite,,200000,https://upload.wikimedia.org/wikipedia/commons/2/2b/Charon_in_Color_%28HQ%29.jpg,no,
+0,Sun,star," The Sun is the star at the center of the Solar System. It is a nearly perfect sphere of hot plasma, with internal convective motion that generates a magnetic field via a dynamo process. It is by far the most important source of energy for life on Earth. ",10000000,https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg/1024px-Solar_prominence_from_STEREO_spacecraft_September_29%2C_2008.jpg,no,
 16160,16160,star,,100,,yes,
 20794,20794,star,,100,,yes,
 4628,4628,star,,100,,yes,

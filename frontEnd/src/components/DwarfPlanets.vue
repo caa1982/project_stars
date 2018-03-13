@@ -12,8 +12,11 @@
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline color="green">
+            <v-btn outline v-if="! cart.some(e => e.Name === dwarfplanet.Name)" @click="addToCart(dwarfplanet)" color="green">
               <v-icon>add_shopping_cart</v-icon>
+            </v-btn>
+            <v-btn outline v-if=" cart.some(e => e.Name === dwarfplanet.Name)" @click="removeFromCart(dwarfplanet)" color="red">
+              <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
           </v-card>
@@ -37,20 +40,31 @@
 </template>
 <script>
 import api from "@/api";
+import { EventBus } from "@/modules/eventBus.js";
+
 export default {
-  name: 'DwarfPlanets',
+  name: "DwarfPlanets",
+  props: ["cart"],
   data() {
     return {
       dwarfplanets: [],
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
-    }
+    };
   },
   created() {
     api.getDwarfPlanet(dwarfplanets => {
-       this.dwarfplanets = dwarfplanets;
+      this.dwarfplanets = dwarfplanets;
     });
+  },
+  methods: {
+    addToCart: function(object) {
+      EventBus.$emit("add", object);
+    },
+    removeFromCart: function(object) {
+      EventBus.$emit("remove", object);
+    }
   }
-}
+};
 </script>
 
 <style>
@@ -60,7 +74,7 @@ export default {
 .card_media {
   height: 250px !important;
 }
-.innerDivider{
+.innerDivider {
   margin: 1vh;
 }
 .card_title {
@@ -69,7 +83,7 @@ export default {
 .margin_bottom {
   margin-bottom: 2vh;
 }
-.margin_top{
+.margin_top {
   margin-top: 2vh;
 }
 </style>

@@ -15,8 +15,7 @@ export default new Router({
     {
       path: '/',
       name: 'LandingPage',
-      component: LandingPage,
-      props: true
+      component: LandingPage
     },
     {
       path: '/stars',
