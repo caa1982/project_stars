@@ -134,9 +134,9 @@
           >
             <img id="MetaMask" slot="activator" src="./assets/Metamask.png">
             
-            <v-card class="margin_card transparent text-xs-center">
+            <v-card v-if="MetaMaskConnected != false" class="margin_card transparent text-xs-center">
             <v-card-title class="orange lighten-1">
-            <div class="black--text" v-if="MetaMaskConnected != false">
+            <div class="black--text">
               <div class="pointerCopy" v-clipboard="address[0]">{{ address[0] }}</div>
               <span><v-icon class="fab fa-ethereum"></v-icon>{{ metaMaskBalance  }}</span>
             </div>
