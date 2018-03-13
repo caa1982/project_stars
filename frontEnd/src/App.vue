@@ -118,8 +118,9 @@
           >
             <img id="MetaMask" slot="activator" src="./assets/Metamask.png">
             
+            
             <v-card class="margin_card transparent">
-            <div class="div"></div>
+            <div class="top"></div>
             <v-list class="orange darken-1 white--text" v-if="MetaMaskConnected != false">
               <v-list-tile>
                 <v-list-tile-title>Adrress: {{ address[0].substring(0,15) }}</v-list-tile-title>
@@ -238,22 +239,9 @@ import MetaMask from './api/modules/web3Connection.js'
     right: 1vw;
     margin-top: 1vh;
   }
-  .margin_menu {
-    margin-top: 5vh;
-  }
-  .margin_card {
-    margin-top: 2vh;
-  }
-.div{
-  width: 0;
-  height: 0;
-  margin-left:auto; 
-  margin-right: 1.4vw;
-  border-style: solid;
-  margin-top: 0;
-  margin-bottom: 0.5vh;
-  border-width: 0 7.5px 15px 7.5px;
-  border-color: transparent transparent #0900ff transparent;
-} 
+  .top{
+    height: 15px;
+    margin-top: 1.8vh;
+  } 
 
 </style>
