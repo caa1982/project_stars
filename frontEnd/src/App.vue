@@ -92,30 +92,32 @@
           <v-icon color="grey darken-1" medium slot="activator">
             shopping_cart
           </v-icon>
-            <v-card v-if="cart.length !=0" class="margin_card grey darken-4 text-xs-center">
+            <v-card v-if="cart.length !=0" class="margin_cart grey darken-4 text-xs-center">
             <v-card-title class="indigo">
               <div class="white--text">Recently added items ({{cart.length}})</div>
             </v-card-title> 
-            <v-list Two-line>
+            <v-list class="transparent" Two-line>
                 <template v-for="item in cart">
-                  <v-list-tile avatar :key="item.title">
+                  <v-list-tile class="white rounded card_text_margin" avatar :key="item.title">
                     <v-list-tile-avatar>
                       <img v-if="item.img" :src="item.img">
                       <img v-else-if="item.Object == 'star'" src="./assets/star.jpg">
                     </v-list-tile-avatar>
+                    
                     <v-list-tile-content>
                       <v-list-tile-title >{{item.Name}}</v-list-tile-title>
                       <v-list-tile-title >{{item.Price}} <v-icon small>fab fa-ethereum</v-icon></v-list-tile-title>
                     </v-list-tile-content>
-                    <div class="pointer"><v-icon color="red" @click="deleteFromCart(item)" medium>delete_forever</v-icon></div>
+                    <div class="pointer"><v-icon @click="deleteFromCart(item)" medium>clear</v-icon></div>
+              
                   </v-list-tile>
                 </template>
             </v-list>
-            <v-card-text class="card_trext_margin indigo">
+            <v-card-text class="card_cartBalance_margin indigo">
               <div class="white--text">Total: {{ cart.reduce((acc, obj) => acc + obj.Price, 0) }} <v-icon small>fab fa-ethereum</v-icon></div>
             </v-card-text>
-            <v-card-actions>
-              <v-btn outline color="white" large>
+            <v-card-actions class="justify-center">
+              <v-btn outline color="green" large>
                 Check out
               </v-btn>
             </v-card-actions>
@@ -268,6 +270,13 @@ import { EventBus } from '@/modules/eventBus.js'
     border-style: solid;
     border-width: 5px;
   }
+  .margin_cart {
+    margin-top: 2vh;
+    border-style: solid;
+    border-width: 7px;
+    width: 300px;
+    
+  }
   .pointerCopy {
     cursor: copy;
   }
@@ -277,7 +286,15 @@ import { EventBus } from '@/modules/eventBus.js'
   .fa-ethereum {
     margin-bottom: 5px;
   }
-  .card_trext_margin{
+  .card_text_margin{
     margin-top: 1vh;
+    margin-left: 7px !important;
+    margin-right: 7px !important;
+  }
+  .card_cartBalance_margin{
+    margin-top: 1vh;
+  }
+  .rounded {
+    border-radius: 25px;
   }
 </style>
