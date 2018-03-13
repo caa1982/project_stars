@@ -86,22 +86,38 @@
           <span slot="badge">{{cart.length}}</span>
           <v-menu
             bottom 
+            :close-on-content-click="false"
             offset-y
           >
           <v-icon color="grey darken-1" medium slot="activator">
             shopping_cart
           </v-icon>
-            <v-card class="margin_card grey darken-4 text-xs-center">
+            <v-card v-if="cart.length !=0" class="margin_card grey darken-4 text-xs-center">
             <v-card-title class="indigo">
-              <div class="white--text">Recently added items</div>
+              <div class="white--text">Recently added items ({{cart.length}})</div>
             </v-card-title> 
+            <v-list Two-line>
+                <template v-for="item in cart">
+                  <v-list-tile avatar :key="item.title">
+                    <v-list-tile-avatar>
+                      <img v-if="item.img" :src="item.img">
+                      <img v-else-if="item.Object == 'star'" src="./assets/star.jpg">
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title >{{item.Name}}</v-list-tile-title>
+                      <v-list-tile-title >{{item.Price}} <v-icon small>fab fa-ethereum</v-icon></v-list-tile-title>
+                    </v-list-tile-content>
+                    <div class="pointer"><v-icon color="red" @click="deleteFromCart(item)" medium>delete_forever</v-icon></div>
+                  </v-list-tile>
+                </template>
+            </v-list>
             <v-card-text class="card_trext_margin indigo">
-              <div class="white--text">Total: 0 <v-icon small>fab fa-ethereum</v-icon></div>
+              <div class="white--text">Total: {{ cart.reduce((acc, obj) => acc + obj.Price, 0) }} <v-icon small>fab fa-ethereum</v-icon></div>
             </v-card-text>
-             <v-card-actions>
-            <v-btn outline color="white" large>
-              Check out
-            </v-btn>
+            <v-card-actions>
+              <v-btn outline color="white" large>
+                Check out
+              </v-btn>
             </v-card-actions>
             </v-card>
           </v-menu>
@@ -119,8 +135,8 @@
             <v-card class="margin_card transparent text-xs-center">
             <v-card-title class="orange lighten-1">
             <div class="black--text" v-if="MetaMaskConnected != false">
-              <div class="pointer" v-clipboard="address[0]">{{ address[0] }}</div>
-              <span><v-icon class="fab fa-ethereum"></v-icon> {{ balance }}</span>
+              <div class="pointerCopy" v-clipboard="address[0]">{{ address[0] }}</div>
+              <span><v-icon class="fab fa-ethereum"></v-icon>{{ metaMaskBalance  }}</span>
             </div>
             </v-card-title>
             </v-card>
@@ -149,7 +165,7 @@ import { EventBus } from '@/modules/eventBus.js'
       metaMaskIcon: "not_interested",
       metaMaskColor: "red",
       MetaMaskConnected: false,
-      balance: 0,
+      metaMaskBalance: 0,
       intervalId: "",
       message: "",
       menu: false,
@@ -163,15 +179,14 @@ import { EventBus } from '@/modules/eventBus.js'
       this.intervalId = setInterval(() => {
         this.addressMetaMask();
       }, 1000);
-      //this.cart = JSON.parse(localStorage.getItem("cart"));
+      this.cart = JSON.parse(localStorage.getItem("cart")) || [];
       console.log('this.cart: ', this.cart);
       EventBus.$on("add", object => {
         this.cart.push(object);
-        //localStorage.setItem("cart", JSON.stringify(this.cart));
+        localStorage.setItem("cart", JSON.stringify(this.cart));
       })
       EventBus.$on("remove", object => {
-        this.cart = this.cart.filter(el => el.Name !== object.Name );
-        //localStorage.setItem("cart", JSON.stringify(this.cart));
+        this.deleteFromCart(object);
       })
     },
     methods: {
@@ -195,9 +210,9 @@ import { EventBus } from '@/modules/eventBus.js'
           this.reset()
         }
       },
-      getBalance: async function() {
-        const balance = await MetaMask.eth.getBalance(this.address[0].toString())
-        this.balance = MetaMask.utils.fromWei(balance, 'ether');
+      getmetaMaskBalance: async function() {
+        const metaMaskBalance = await MetaMask.eth.getmetaMaskBalance(this.address[0].toString())
+        this.metaMaskBalance = MetaMask.utils.fromWei(metaMaskBalance, 'ether');
       },
       reset: function() {
         this.$router.push({ name: 'LandingPage' });
@@ -216,6 +231,10 @@ import { EventBus } from '@/modules/eventBus.js'
          } else {
           this.message =`You are connected to the ${this.network} Netwrok please change to Main`;
          }
+      },
+      deleteFromCart: function(object){
+        this.cart = this.cart.filter(el => el.Name !== object.Name );
+        localStorage.setItem("cart", JSON.stringify(this.cart));
       }
     },
     watch: {
@@ -249,8 +268,11 @@ import { EventBus } from '@/modules/eventBus.js'
     border-style: solid;
     border-width: 5px;
   }
-  .pointer {
+  .pointerCopy {
     cursor: copy;
+  }
+  .pointer {
+    cursor: pointer;
   }
   .fa-ethereum {
     margin-bottom: 5px;
