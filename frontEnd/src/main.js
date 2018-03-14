@@ -6,7 +6,9 @@ import router from './router'
 import Vuetify from 'vuetify'
 import '../node_modules/vuetify/dist/vuetify.css'
 import Clipboard from 'v-clipboard'
+import VueResource from 'vue-resource';
 
+Vue.use(VueResource);
 Vue.use(Clipboard)
 Vue.use(Vuetify)
 

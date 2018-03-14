@@ -42,14 +42,14 @@
               <span class="white--text body-2"> {{star.Info}} </span>
               <v-divider class="innerDivider"></v-divider>
               <div class="white--text">Learn more about HD{{star.hd}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${star.Name}`" target="_blank">here</a>
+              <a class="red--text" :href="`${wikipediaUrl} ${isNaN(star.Name) == true ? star.Name : 'HD_' + star.Name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>
           </v-card>
           </div>
         </v-layout>
-        <v-progress-linear :v-if="loading === true && stars.length() != 0" :indeterminate="true"></v-progress-linear>
+        <v-progress-linear v-if="loading === true && stars.length != 0" :indeterminate="true"></v-progress-linear>
       </v-container>
     </v-flex>
 </template>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       stars: [],
-      loading: true,
+      loading: false,
       page: 0,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
@@ -70,6 +70,7 @@ export default {
   methods: {
     getStars: function() {
       this.page++;
+      this.loading = true;
       api.getStars(this.page, stars => {
         this.stars = this.stars.concat(stars);
         this.loading = false;

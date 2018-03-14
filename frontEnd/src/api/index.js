@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Vue from 'vue'
 
 const baseUrl = "http://localhost:3000"
 
@@ -37,5 +38,13 @@ export default {
    cb(result.data.data)
        })
    .catch(console.log)
-}
+ },
+ wikipediaIntro: (object, cb) => {
+     const url ="https://en.wikipedia.org/w/api.php?action=opensearch&prop=pageimages&limit=1&format=json&callback=?&search="+object;
+    Vue.http.jsonp(url).then(response => {
+        cb(response.body[2])
+      }, response => {
+        console.log(response)
+    });
+ }
 }

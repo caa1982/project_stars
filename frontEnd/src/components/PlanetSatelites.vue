@@ -23,7 +23,7 @@
           <v-card class="card_width margin_bottom">
           <v-expansion-panel dark>
               <v-expansion-panel-content>
-                <div slot="header">Tell me more</div>
+                <div slot="header">Tell me more</div> 
             <v-card-text>
               <span class="white--text body-2"> {{planetSatelite.Info}} </span>
               <v-divider class="innerDivider"></v-divider>
@@ -48,12 +48,13 @@ export default {
   data() {
     return {
       planetSatelites: [],
-      wikipediaUrl: "https://en.wikipedia.org/wiki/"
+      wikipediaUrl: "https://en.wikipedia.org/wiki/",
     };
   },
-  created() {
+  mounted() {
     api.getPlanetSatelites(planetSatelites => {
       this.planetSatelites = planetSatelites;
+      this.planetSatelites.forEach(el => this.wkipediaIntro(el.Name))
     });
   },
   methods: {
@@ -62,6 +63,16 @@ export default {
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
+    },
+    wkipediaIntro: function(object){
+      api.wikipediaIntro(object, response => {
+        this.planetSatelites.find(el => {
+          if(el.Name == object) {
+            console.log('response: ', response);
+            el.Info = response[0];
+          }
+        });
+      })
     }
   }
 };

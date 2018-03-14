@@ -157,144 +157,155 @@
   </v-app>
 </template>
 <script>
-import MetaMask from './api/modules/web3Connection.js'
-import { EventBus } from '@/modules/eventBus.js'
-  export default {
-    data: () => ({
-      drawer: null,
-      address: [],
-      network: "",
-      metaMaskIcon: "not_interested",
-      metaMaskColor: "red",
-      MetaMaskConnected: false,
-      metaMaskBalance: 0,
-      intervalId: "",
-      message: "",
-      menu: false,
-      cart: []
-    }),
-    created() {
-      MetaMask.eth.net.getNetworkType().then(network => {
-        this.network = network;
-        this.getMessage();
-      });
-      this.intervalId = setInterval(() => {
-        this.addressMetaMask();
-      }, 1000);
-      this.cart = JSON.parse(localStorage.getItem("cart")) || [];
-      console.log('this.cart: ', this.cart);
-      EventBus.$on("add", object => {
-        this.cart.push(object);
-        localStorage.setItem("cart", JSON.stringify(this.cart));
-      })
-      EventBus.$on("remove", object => {
-        this.deleteFromCart(object);
-      })
-    },
-    methods: {
-      addressMetaMask: async function() {
-        if(MetaMask.currentProvider === null){
-          return
-        }
+import MetaMask from "./api/modules/web3Connection.js";
+import { EventBus } from "@/modules/eventBus.js";
+export default {
+  data: () => ({
+    drawer: null,
+    address: [],
+    network: "",
+    metaMaskIcon: "not_interested",
+    metaMaskColor: "red",
+    MetaMaskConnected: false,
+    metaMaskBalance: 0,
+    intervalId: "",
+    message: "",
+    menu: false,
+    cart: []
+  }),
+  created() {
+    MetaMask.eth.net.getNetworkType().then(network => {
+      this.network = network;
+      this.getMessage();
+    });
+    this.intervalId = setInterval(() => {
+      this.addressMetaMask();
+    }, 1000);
+    this.cart = JSON.parse(localStorage.getItem("cart")) || [];
+    EventBus.$on("add", object => {
+      this.cart.push(object);
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    });
+    EventBus.$on("remove", object => {
+      this.deleteFromCart(object);
+    });
+  },
+  methods: {
+    addressMetaMask: async function() {
+      if (MetaMask.currentProvider === null) {
+        return;
+      }
 
-        this.network = await MetaMask.eth.net.getNetworkType();
-        this.address = await MetaMask.eth.getAccounts();
+      this.network = await MetaMask.eth.net.getNetworkType();
+      this.address = await MetaMask.eth.getAccounts();
 
-        if(this.address.length != 0 && this.network === "main" && this.MetaMaskConnected != true){
-          this.drawer = true;
-          this.$router.push({ name: 'Stars'});
-          this.metaMaskColor = "green"
-          this.metaMaskIcon = "done";
-          this.MetaMaskConnected = true;
-        } else if ((this.network != "main" || this.address.length === 0) && this.MetaMaskConnected == true) {
-          this.reset()
-        } else if (this.MetaMaskConnected != true && this.$route.name != 'LandingPage') {
-          this.reset()
-        }
-      },
-      getmetaMaskBalance: async function() {
-        const metaMaskBalance = await MetaMask.eth.getmetaMaskBalance(this.address[0].toString())
-        this.metaMaskBalance = MetaMask.utils.fromWei(metaMaskBalance, 'ether');
-      },
-      reset: function() {
-        this.$router.push({ name: 'LandingPage' });
-        this.drawer = false;
-        this.MetaMaskConnected = false;
-        this.address = [];
-        this.metaMaskIcon = "not_interested";
-        this.metaMaskColor = "red";
-        this.getMessage();
-      },
-      getMessage: function() {
-        if (this.network === 'main') {
-          this.message = "LogIn into MetaMask Please";
-         } else if (this.network === ''){
-          this.message = 'Please download MetaMask';
-         } else {
-          this.message =`You are connected to the ${this.network} Netwrok please change to Main`;
-         }
-      },
-      deleteFromCart: function(object){
-        this.cart = this.cart.filter(el => el.Name !== object.Name );
-        localStorage.setItem("cart", JSON.stringify(this.cart));
+      if (
+        this.address.length != 0 &&
+        this.network === "main" &&
+        this.MetaMaskConnected != true
+      ) {
+        this.drawer = true;
+        this.$router.push({ name: "Stars" });
+        this.metaMaskColor = "green";
+        this.metaMaskIcon = "done";
+        this.MetaMaskConnected = true;
+      } else if (
+        (this.network != "main" || this.address.length === 0) &&
+        this.MetaMaskConnected == true
+      ) {
+        this.reset();
+      } else if (
+        this.MetaMaskConnected != true &&
+        this.$route.name != "LandingPage"
+      ) {
+        this.reset();
       }
     },
-    watch: {
-      address(newVal, oldVal) {
-        if(this.network === "main"){
-          this.address = newVal; 
-        }
-      },
-      
+    getmetaMaskBalance: async function() {
+      const metaMaskBalance = await MetaMask.eth.getmetaMaskBalance(
+        this.address[0].toString()
+      );
+      this.metaMaskBalance = MetaMask.utils.fromWei(metaMaskBalance, "ether");
+    },
+    reset: function() {
+      this.$router.push({ name: "LandingPage" });
+      this.drawer = false;
+      this.MetaMaskConnected = false;
+      this.address = [];
+      this.metaMaskIcon = "not_interested";
+      this.metaMaskColor = "red";
+      this.getMessage();
+    },
+    getMessage: function() {
+      if (this.network === "main") {
+        this.message = "LogIn into MetaMask Please";
+      } else if (this.network === "") {
+        this.message = "Please download MetaMask";
+      } else {
+        this.message = `You are connected to the ${
+          this.network
+        } Netwrok please change to Main`;
+      }
+    },
+    deleteFromCart: function(object) {
+      this.cart = this.cart.filter(el => el.Name !== object.Name);
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    },
+  },
+  watch: {
+    address(newVal, oldVal) {
+      if (this.network === "main") {
+        this.address = newVal;
+      }
     }
   }
+};
 </script>
 
 <style>
-  main {
-    background: linear-gradient(#e3e338, #ffffff , #e3e338);
-  }
-  #MetaMask {
-    margin-left: 2vh;
-    width: 30px;
-  }
-  .margin_badge {
-    right: 1vw;
-    margin-top: 1vh;
-  }
-  .margin_menu {
-    margin-top: 5vh;
-  }
-  .margin_card {
-    margin-top: 2vh;
-    border-style: solid;
-    border-width: 5px;
-  }
-  .margin_cart {
-    margin-top: 2vh;
-    border-style: solid;
-    border-width: 7px;
-    width: 300px;
-    
-  }
-  .pointerCopy {
-    cursor: copy;
-  }
-  .pointer {
-    cursor: pointer;
-  }
-  .fa-ethereum {
-    margin-bottom: 5px;
-  }
-  .card_text_margin{
-    margin-top: 1vh;
-    margin-left: 7px !important;
-    margin-right: 7px !important;
-  }
-  .card_cartBalance_margin{
-    margin-top: 1vh;
-  }
-  .rounded {
-    border-radius: 25px;
-  }
+main {
+  background: linear-gradient(#e3e338, #ffffff, #e3e338);
+}
+#MetaMask {
+  margin-left: 2vh;
+  width: 30px;
+}
+.margin_badge {
+  right: 1vw;
+  margin-top: 1vh;
+}
+.margin_menu {
+  margin-top: 5vh;
+}
+.margin_card {
+  margin-top: 2vh;
+  border-style: solid;
+  border-width: 5px;
+}
+.margin_cart {
+  margin-top: 2vh;
+  border-style: solid;
+  border-width: 7px;
+  width: 300px;
+}
+.pointerCopy {
+  cursor: copy;
+}
+.pointer {
+  cursor: pointer;
+}
+.fa-ethereum {
+  margin-bottom: 5px;
+}
+.card_text_margin {
+  margin-top: 1vh;
+  margin-left: 7px !important;
+  margin-right: 7px !important;
+}
+.card_cartBalance_margin {
+  margin-top: 1vh;
+}
+.rounded {
+  border-radius: 25px;
+}
 </style>
