@@ -7,15 +7,15 @@
             <v-card-media class="card_media" :src="dwarfplanet.img"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{dwarfplanet.Name}}</div>
-                <div class="black--text body-1">Price: {{dwarfplanet.Price}} USD </div>
+                <div class="headline">{{dwarfplanet.name}}</div>
+                <div class="black--text body-1">Price: {{dwarfplanet.price}} USD </div>
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline v-if="! cart.some(e => e.Name === dwarfplanet.Name)" @click="addToCart(dwarfplanet)" color="green">
+            <v-btn outline v-if="! cart.some(e => e.name === dwarfplanet.name)" @click="addToCart(dwarfplanet)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.Name === dwarfplanet.Name)" @click="removeFromCart(dwarfplanet)" color="red">
+            <v-btn outline v-if=" cart.some(e => e.name === dwarfplanet.name)" @click="removeFromCart(dwarfplanet)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
@@ -25,10 +25,10 @@
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
             <v-card-text>
-              <span class="white--text body-2"> {{dwarfplanet.Info}} </span>
+              <span class="white--text body-2"> {{dwarfplanet.info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text">Learn more about {{dwarfplanet.Name}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${dwarfplanet.Name} _(dwarfplanet)`" target="_blank">here</a>
+              <div class="white--text">Learn more about {{dwarfplanet.name}}</div>
+              <a class="red--text" :href="`${wikipediaUrl} ${dwarfplanet.name} _(dwarfplanet)`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>

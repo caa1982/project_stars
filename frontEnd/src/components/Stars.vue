@@ -12,24 +12,24 @@
               :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`" 
               frameBorder="0" 
               sandbox="allow-scripts allow-same-origin"
-              v-if="star.Name != 'Sun'"
+              v-if="star.name != 'Sun'"
             ></IFRAME>
             <v-card-media 
               class="sun" 
               :src="star.img"
-              v-if="star.Name === 'Sun'"
+              v-if="star.name === 'Sun'"
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{star.Name}}</div>
-                <div class="black--text body-1">Price: {{star.Price}} USD </div>
+                <div class="headline">{{star.name}}</div>
+                <div class="black--text body-1">price: {{star.price}} USD </div>
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline v-if="! cart.some(e => e.Name === star.Name)" @click="addToCart(star)" color="green">
+            <v-btn outline v-if="! cart.some(e => e.name === star.name)" @click="addToCart(star)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.Name === star.Name)" @click="removeFromCart(star)" color="red">
+            <v-btn outline v-if=" cart.some(e => e.name === star.name)" @click="removeFromCart(star)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
@@ -39,10 +39,10 @@
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
             <v-card-text class="justify-center">
-              <span class="white--text body-2"> {{star.Info}} </span>
+              <span class="white--text body-2"> {{star.info}} </span>
               <v-divider class="innerDivider"></v-divider>
               <div class="white--text">Learn more about HD{{star.hd}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${isNaN(star.Name) == true ? star.Name : 'HD_' + star.Name}`" target="_blank">here</a>
+              <a class="red--text" :href="`${wikipediaUrl} ${isNaN(star.name) == true ? star.name : 'HD_' + star.name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>

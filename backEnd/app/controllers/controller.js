@@ -1,20 +1,23 @@
 const mongoose          = require('mongoose');
-const SpaceObjectsModel = require("../models/spaceObjects");
+const SpaceObjectModel = require("../models/spaceObject");
 
 exports.getStars = (req, res) => {
     
     const pageNum = req.body.page;
-    
-    SpaceObjectsModel.paginate({Object: "star"}, { page: pageNum, limit: 9 }, (err, result) => {
+ 
+    SpaceObjectModel.paginate({object: "star"}, { page: pageNum, limit: 9 }, (err, result) => {
+      
       if(err) {
         console.log(err)
       }
+      console.log('result: ', result);
       res.send({data: result})
     })
 };
 
 exports.getPlanets = (req, res) => {
-  SpaceObjectsModel.find({Object: "Planet"}, (err, result) => {
+  SpaceObjectModel.find({object: "Planet"}, (err, result) => {
+    console.log('result: ', result);
     if(err) {
       console.log(err)
     }
@@ -23,7 +26,7 @@ exports.getPlanets = (req, res) => {
 };
 
 exports.getExoPlanets = (req, res) => {
-  SpaceObjectsModel.find({Object: "exoplanet"}, (err, result) => {
+  SpaceObjectModel.find({object: "exoplanet"}, (err, result) => {
     if(err) {
       console.log(err)
     }
@@ -32,7 +35,7 @@ exports.getExoPlanets = (req, res) => {
 };
 
 exports.getDwarfPlanets = (req, res) => {
-  SpaceObjectsModel.find({Object: "dwarf planet"}, (err, result) => {
+  SpaceObjectModel.find({object: "dwarf planet"}, (err, result) => {
     if(err) {
       console.log(err)
     }
@@ -41,7 +44,7 @@ exports.getDwarfPlanets = (req, res) => {
 };
 
 exports.getPlanetSatelites = (req, res) => {
-  SpaceObjectsModel.find({Object: "Satellite"}, (err, result) => {
+  SpaceObjectModel.find({object: "Satellite"}, (err, result) => {
     if(err) {
       console.log(err)
     }

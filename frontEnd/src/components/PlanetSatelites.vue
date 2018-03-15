@@ -7,15 +7,15 @@
             <v-card-media class="card_media" :src="planetSatelite.img"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{planetSatelite.Name}}</div>
-                <div class="black--text body-1">Price: {{planetSatelite.Price}} USD </div>
+                <div class="headline">{{planetSatelite.name}}</div>
+                <div class="black--text body-1">price: {{planetSatelite.price}} USD </div>
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline v-if="! cart.some(e => e.Name === planetSatelite.Name)" @click="addToCart(planetSatelite)" color="green">
+            <v-btn outline v-if="! cart.some(e => e.name === planetSatelite.name)" @click="addToCart(planetSatelite)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.Name === planetSatelite.Name)" @click="removeFromCart(planetSatelite)" color="red">
+            <v-btn outline v-if=" cart.some(e => e.name === planetSatelite.name)" @click="removeFromCart(planetSatelite)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
@@ -25,10 +25,10 @@
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div> 
             <v-card-text>
-              <span class="white--text body-2"> {{planetSatelite.Info}} </span>
+              <span class="white--text body-2"> {{planetSatelite.info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text">Learn more about {{planetSatelite.Name}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${planetSatelite.Name}`" target="_blank">here</a>
+              <div class="white--text">Learn more about {{planetSatelite.name}}</div>
+              <a class="red--text" :href="`${wikipediaUrl} ${planetSatelite.name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>
@@ -54,7 +54,7 @@ export default {
   mounted() {
     api.getPlanetSatelites(planetSatelites => {
       this.planetSatelites = planetSatelites;
-      this.planetSatelites.forEach(el => this.wkipediaIntro(el.Name))
+      this.planetSatelites.forEach(el => this.wkipediaIntro(el.name))
     });
   },
   methods: {
@@ -67,9 +67,9 @@ export default {
     wkipediaIntro: function(object){
       api.wikipediaIntro(object, response => {
         this.planetSatelites.find(el => {
-          if(el.Name == object) {
+          if(el.name == object) {
             console.log('response: ', response);
-            el.Info = response[0];
+            el.info = response[0];
           }
         });
       })
