@@ -5,17 +5,15 @@ const Schema   = mongoose.Schema;
 
 const spaceObjectSchema = new Schema({  
     _id: String,
-    hd: Number,
-    name: String,
+    hd: { type: Number, index: true },
+    name: { type: String, index: true },
     object: String,
     info: String,
     price: Number,
-    img: String,
-    skymap: String,
-    wikipedia: String
+    img: String
 });
 
-spaceObjectSchema.index({ object: 1}, {unique: false})
+
 spaceObjectSchema.plugin(mongoosePaginate);
 
 const SpaceObjects = mongoose.model('SpaceObject', spaceObjectSchema);

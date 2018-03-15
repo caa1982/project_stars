@@ -76,7 +76,7 @@
       <v-text-field
         solo
         flat
-        label="Search by ID/Name"
+        label="Search by ID/name"
         prepend-icon="search"
         v-if="MetaMaskConnected != false"
       ></v-text-field>
@@ -101,12 +101,13 @@
                   <v-list-tile class="white rounded card_text_margin" avatar :key="item.title">
                     <v-list-tile-avatar>
                       <img v-if="item.img" :src="item.img">
-                      <img v-else-if="item.Object == 'star'" src="./assets/star.jpg">
+                      <img v-else-if="item.object == 'star'" src="./assets/star.jpg">
+                      <img v-else-if="item.object == 'exoplanet'" src="./assets/No-image-available.jpg">
                     </v-list-tile-avatar>
                     
                     <v-list-tile-content>
-                      <v-list-tile-title >{{item.Name}}</v-list-tile-title>
-                      <v-list-tile-title >{{item.Price}} <v-icon small>fab fa-ethereum</v-icon></v-list-tile-title>
+                      <v-list-tile-title >{{item.name.slice(0, 15)}}</v-list-tile-title>
+                      <v-list-tile-title >{{item.price}} <v-icon small>fab fa-ethereum</v-icon></v-list-tile-title>
                     </v-list-tile-content>
                     <div class="pointer"><v-icon @click="deleteFromCart(item)" medium>clear</v-icon></div>
               
@@ -114,7 +115,7 @@
                 </template>
             </v-list>
             <v-card-text class="card_cartBalance_margin indigo">
-              <div class="white--text">Total: {{ cart.reduce((acc, obj) => acc + obj.Price, 0) }} <v-icon small>fab fa-ethereum</v-icon></div>
+              <div class="white--text">Total: {{ cart.reduce((acc, obj) => acc + obj.price, 0) }} <v-icon small>fab fa-ethereum</v-icon></div>
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-btn outline color="green" large>
@@ -248,7 +249,7 @@ export default {
       }
     },
     deleteFromCart: function(object) {
-      this.cart = this.cart.filter(el => el.Name !== object.Name);
+      this.cart = this.cart.filter(el => el.name !== object.name);
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
   },

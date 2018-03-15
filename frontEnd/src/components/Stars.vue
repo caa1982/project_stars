@@ -17,12 +17,13 @@
             <v-card-media 
               class="sun" 
               :src="star.img"
-              v-if="star.name === 'Sun'"
+              v-else-if="star.name === 'Sun'"
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{star.name}}</div>
-                <div class="black--text body-1">price: {{star.price}} USD </div>
+                <div class="headline" v-if="star.name === 'Sun'">{{star.name}}</div>
+                <div class="headline" v-else-if="star.name != 'Sun'">HD{{star.name}}</div>
+                <div class="black--text body-1">price: {{star.price}} ETH </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -34,11 +35,11 @@
             </v-btn>
             </v-card-action>
           </v-card>
-          <v-card class="card_srtars_width margin_bottom">
+          <v-card class="card_stars_width margin_bottom">
           <v-expansion-panel dark>
               <v-expansion-panel-content>
                 <div slot="header">Tell me more</div>
-            <v-card-text class="justify-center">
+            <v-card-text>
               <span class="white--text body-2"> {{star.info}} </span>
               <v-divider class="innerDivider"></v-divider>
               <div class="white--text">Learn more about HD{{star.hd}}</div>
@@ -105,8 +106,11 @@ export default {
 .margin_stars_top {
   width: 400px !important;
 }
+.card_stars_width {
+  width: 400px;
+}
 .sun {
-  height: 250px !important;
+  height: 256px !important;
   width: 400px !important;
 }
 .iframe_stars {

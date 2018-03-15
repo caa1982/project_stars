@@ -33,44 +33,58 @@ mongoose.connect("mongodb://localhost:27017/headInTheStars")
 // })
 // }, 20000);
 
-SpaceObjectModel.find({object: "exoplanet"}).then(res => {
-
-    res.slice(4000, 5000).forEach(resp => {
-        console.log('resp: ', resp.name);
+SpaceObjectModel.find({object: "star"}).then(res => {
+  
+    var count = 0;
+    res.forEach(resp => {
         
-   if(resp.img === "" && res.wikipedia != "true"){
-        todo(res.name)
-   }
-})
-
-
-})
-
-var todo = (name) => {
-    var result = request('GET', 'https://en.wikipedia.org/w/api.php?action=query&origin=*&titles='+ name +'&prop=pageimages&format=json&pithumbsize=400');
-
-    result.done(function (res) {
-       
-            if(res.query.pages[Object.keys(res.query.pages)].hasOwnProperty("thumbnail")){
-                update(res.query.pages[Object.keys(res.query.pages)].thumbnail.source, name)
-            } else(
-                console.log("no img")
-            )
-    
-        
-    });
-}
-
-
-var update = (img, name) => { SpaceObjectModel.findOneAndUpdate({name: name}, {img:img, wikipedia: "true"}, {new: true}, function(err, doc){
-        if(err){
-            console.log("Something wrong when updating data!");
+        if(resp.price === 0.015 || resp.name === "Sun" || !isNaN(number(resp.name))){
+            return
+        } else {
+            SpaceObjectModel.findOneAndUpdate({hd: resp.hd}, {price:10}, {new: true}, function(err, doc){
+                if(err){
+                    console.log("Something wrong when updating data!");
+                }
+                    count++
+                    console.log("asved", count)
+                    
+                
+                
+            })
         }
         
-            console.log(name)
-            console.log(text)
-        
-        
+         
     })
-}
+})
+
+
+
+// var todo = (name) => {
+ 
+//     var result = request('GET', 'https://en.wikipedia.org/w/api.php?action=query&origin=*&titles='+ name +'&prop=pageimages&format=json&pithumbsize=400');
+    
+//     result.done(function (res) {
+       
+//             if(res.query.pages[Object.keys(res.query.pages)].hasOwnProperty("thumbnail")){
+//                update(res.query.pages[Object.keys(res.query.pages)].thumbnail.source, name)
+//             } else{
+//                 return
+//             }
+    
+        
+//     });
+// }
+
+
+// var update = (img, name) => { SpaceObjectModel.findOneAndUpdate({name: name}, {img:img}, {new: true}, function(err, doc){
+//         if(err){
+//             console.log("Something wrong when updating data!");
+//         }
+        
+//             console.log("asved")
+            
+        
+        
+//     })
+// }
 

@@ -5,19 +5,17 @@ exports.getStars = (req, res) => {
     
     const pageNum = req.body.page;
  
-    SpaceObjectModel.paginate({object: "star"}, { page: pageNum, limit: 9 }, (err, result) => {
+    SpaceObjectModel.paginate({object: "star"}, { page: pageNum, limit: 9, sort: { hd: 1, } }, (err, result) => {
       
       if(err) {
         console.log(err)
       }
-      console.log('result: ', result);
       res.send({data: result})
     })
 };
 
 exports.getPlanets = (req, res) => {
   SpaceObjectModel.find({object: "Planet"}, (err, result) => {
-    console.log('result: ', result);
     if(err) {
       console.log(err)
     }
@@ -26,7 +24,9 @@ exports.getPlanets = (req, res) => {
 };
 
 exports.getExoPlanets = (req, res) => {
-  SpaceObjectModel.find({object: "exoplanet"}, (err, result) => {
+  const pageNum = req.body.page;
+
+  SpaceObjectModel.paginate({object: "exoplanet"}, { page: pageNum, limit: 9, sort: { hd: 1 } }, (err, result) => {
     if(err) {
       console.log(err)
     }

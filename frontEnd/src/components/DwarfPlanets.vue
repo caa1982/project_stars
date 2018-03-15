@@ -8,7 +8,7 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{dwarfplanet.name}}</div>
-                <div class="black--text body-1">Price: {{dwarfplanet.price}} USD </div>
+                <div class="black--text body-1">Price: {{dwarfplanet.price}} ETH </div>
               </div>
             </v-card-title>
             <v-card-action>

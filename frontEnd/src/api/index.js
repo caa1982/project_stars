@@ -32,19 +32,11 @@ export default {
         })
     .catch(console.log)
  },
- getExoplanets: (cb) => {
-   axios.get(`${baseUrl}/exoplanets`)
+ getExoplanets: (page, cb) => {
+   axios.post(`${baseUrl}/exoplanets`, { page})
    .then(result => {
-   cb(result.data.data)
+   cb(result.data.data.docs)
        })
    .catch(console.log)
- },
- wikipediaIntro: (object, cb) => {
-     const url ="https://en.wikipedia.org/w/api.php?action=opensearch&prop=pageimages&limit=1&format=json&callback=?&search="+object;
-    Vue.http.jsonp(url).then(response => {
-        cb(response.body[2])
-      }, response => {
-        console.log(response)
-    });
  }
 }

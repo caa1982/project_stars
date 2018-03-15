@@ -6,7 +6,7 @@ router.post("/stars", controller.getStars);
 
 router.get("/planets", controller.getPlanets);
 
-router.get("/exoPlanets", controller.getExoPlanets);
+router.post("/exoPlanets", controller.getExoPlanets);
 
 router.get("/dwarfPlanet", controller.getDwarfPlanets);
 

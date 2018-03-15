@@ -8,7 +8,7 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{planetSatelite.name}}</div>
-                <div class="black--text body-1">price: {{planetSatelite.price}} USD </div>
+                <div class="black--text body-1">price: {{planetSatelite.price}} ETH </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -54,7 +54,6 @@ export default {
   mounted() {
     api.getPlanetSatelites(planetSatelites => {
       this.planetSatelites = planetSatelites;
-      this.planetSatelites.forEach(el => this.wkipediaIntro(el.name))
     });
   },
   methods: {
@@ -63,16 +62,6 @@ export default {
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
-    },
-    wkipediaIntro: function(object){
-      api.wikipediaIntro(object, response => {
-        this.planetSatelites.find(el => {
-          if(el.name == object) {
-            console.log('response: ', response);
-            el.info = response[0];
-          }
-        });
-      })
     }
   }
 };

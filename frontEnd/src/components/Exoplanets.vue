@@ -4,11 +4,11 @@
         <v-layout justify-space-around row wrap text-xs-center>
           <div v-if="exoplanets.length !=0" v-for="(exoplanet, index) in exoplanets" :key="index">
           <v-card class="card_width" color="transparent">
-            <v-card-media class="card_media" :src="exoplanet.img"></v-card-media>
+            <v-card-media class="card_media" :src="exoplanet.img || 'http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg'"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{exoplanet.name}}</div>
-                <div class="black--text body-1">price: {{exoplanet.price}} USD </div>
+                <div class="black--text body-1">price: {{exoplanet.price}} ETH </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -35,6 +35,7 @@
           </v-card>
           </div>
         </v-layout>
+        <v-progress-linear v-if="loading === true && exoplanets.length != 0" :indeterminate="true"></v-progress-linear>
       </v-container>
     </v-flex>
 </template>
@@ -47,13 +48,17 @@ export default {
   data() {
     return {
       exoplanets: [],
+      loading: false,
+      page: 0,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
   created() {
-    api.getExoplanets(exoplanets => {
-      this.exoplanets = exoplanets.slice(0, 8);
-    });
+    window.addEventListener("scroll", this.handleScroll);
+    this.getExoplanets()
+  },
+  destroyed: function() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     addToCart: function(object) {
@@ -61,6 +66,23 @@ export default {
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
+    },
+    handleScroll: function(event) {
+      var d = document.documentElement;
+      var offset = d.scrollTop + window.innerHeight;
+      var height = d.offsetHeight;
+        
+      if (offset === height) {
+        this.getExoplanets();
+      }
+    },
+    getExoplanets: function(){
+      this.page++;
+      this.loading = true;
+      api.getExoplanets(this.page, exoplanets => {
+        this.exoplanets = this.exoplanets.concat(exoplanets);
+        this.loading = false;
+      });
     }
   }
 };
@@ -84,5 +106,9 @@ export default {
 }
 .margin_top {
   margin-top: 2vh;
+}
+div{
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 </style>
