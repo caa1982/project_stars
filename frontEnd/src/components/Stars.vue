@@ -21,9 +21,11 @@
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline" v-if="star.name === 'Sun'">{{star.name}}</div>
-                <div class="headline" v-else-if="star.name != 'Sun'">HD{{star.name}}</div>
-                <div class="black--text body-1">price: {{star.price}} ETH ({{(star.price*priceEthUsd).toFixed(0)}} USD)</div>
+                <div class="headline" v-if="!isNaN(star.name)">HD{{star.name}}</div>
+                <div class="headline" v-else-if="isNaN(star.name)">{{star.name}}</div>
+                <div class="black--text body-1">price: {{star.price}} ETH 
+                  ({{(star.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
+                </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -63,16 +65,14 @@ export default {
     return {
       stars: [],
       loading: false,
-      page: 0,
+      page: 1,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
-  props: ["cart", "priceEthUsd"],
+  props: ["cart", "priceEthUsd", 'sort', "sortPrice"],
   methods: {
     getStars: function() {
-      this.page++;
-      this.loading = true;
-      api.getStars(this.page, stars => {
+      api.getStars(this.page, this.sort, this.sortPrice, stars => {
         this.stars = this.stars.concat(stars);
         this.loading = false;
       });
@@ -83,6 +83,8 @@ export default {
       var height = d.offsetHeight;
         
       if (offset === height) {
+        this.loading = true;
+        this.page++;
         this.getStars();
       }
     },
@@ -91,6 +93,11 @@ export default {
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
+    },
+    clearGetNewStars: function(){
+      this.stars = [];
+      this.page = 1;
+      this.getStars();
     }
   },
   created() {
@@ -99,6 +106,17 @@ export default {
   },
   destroyed: function() {
     window.removeEventListener("scroll", this.handleScroll);
+  },
+  watch:{
+      image: function() {
+        this.clearGetNewStars();
+      },
+      sort: function() {
+        this.clearGetNewStars();
+      },
+      sortPrice: function(){
+        this.clearGetNewStars();
+      }
   }
 };
 </script>

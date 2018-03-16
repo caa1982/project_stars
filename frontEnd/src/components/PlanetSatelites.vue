@@ -8,7 +8,9 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{planetSatelite.name}}</div>
-                <div class="black--text body-1">price: {{planetSatelite.price}} ETH ({{(planetSatelite.price*priceEthUsd).toFixed(0)}} USD)</div>
+                <div class="black--text body-1">price: {{planetSatelite.price}} ETH 
+                  ({{(planetSatelite.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
+                </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -44,7 +46,7 @@ import { EventBus } from "@/modules/eventBus.js";
 
 export default {
   name: "PlanetSatelites",
-  props: ["cart", "priceEthUsd"],
+  props: ["cart", "priceEthUsd", "sort", "sortPrice"],
   data() {
     return {
       planetSatelites: [],
@@ -52,16 +54,27 @@ export default {
     };
   },
   mounted() {
-    api.getPlanetSatelites(planetSatelites => {
-      this.planetSatelites = planetSatelites;
-    });
+    this.getPlanetSatelites();
   },
   methods: {
+    getPlanetSatelites: function () {
+      api.getPlanetSatelites(this.sort, this.sortPrice, planetSatelites => {
+        this.planetSatelites = planetSatelites;
+      });
+    },
     addToCart: function(object) {
       EventBus.$emit("add", object);
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
+    }
+  },
+  watch:{
+    sort: function() {
+      this.getPlanetSatelites();
+    },
+     sortPrice: function(){
+      this.getPlanetSatelites();
     }
   }
 };

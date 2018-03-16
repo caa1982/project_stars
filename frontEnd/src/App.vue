@@ -73,13 +73,17 @@
     <v-toolbar color="black" app clipped-left>
       <v-toolbar-side-icon color="yellow" @click.native="drawer = !drawer" v-if="MetaMaskConnected != false"></v-toolbar-side-icon>
       <span class="title ml-3 mr-5 white--text">Head In The Stars</span>
-      <v-text-field
-        solo
-        flat
-        label="Search by ID/name"
-        prepend-icon="search"
-        v-if="MetaMaskConnected != false"
-      ></v-text-field>
+      
+      <v-flex lg4 md2 sm2 xs2>
+        <v-text-field
+          solo
+          flat
+          label="Search by ID/name"
+          prepend-icon="search"
+          v-if="MetaMaskConnected != false"
+        ></v-text-field>
+      </v-flex>
+      
       <v-spacer></v-spacer>
       
         <v-badge class="margin_badge" color="red" v-if="MetaMaskConnected != false" overlap>
@@ -115,9 +119,12 @@
                 </template>
             </v-list>
             <v-card-text class="card_cartBalance_margin indigo">
-              <div class="white--text">Total: {{ getTotal() }} <v-icon small>fab fa-ethereum</v-icon> / {{ (getTotal()*priceEthUsd).toFixed(0)}} USD</div>
+              <div class="white--text" v-if="cart.length > 5">Please remove {{cart.length-5}} items, the max items you can buy at once is 5</div>
+              <div class="white--text" v-if="cart.length <= 5">Total: {{ getTotal() }} ETH / 
+                {{ (getTotal()*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD
+              </div>
             </v-card-text>
-            <v-card-actions class="justify-center">
+            <v-card-actions class="justify-center" v-if="cart.length <= 5">
               <v-btn outline color="green" large>
                 Check out
               </v-btn>
@@ -126,6 +133,63 @@
           </v-menu>
         </v-badge>
         
+        <v-menu 
+          bottom 
+          offset-y
+          :close-on-content-click="false"
+          v-if="MetaMaskConnected != false"
+        >
+     
+          <v-icon class="settings_margin" color="grey darken-1" slot="activator" large>settings</v-icon>
+          <v-card class="settings grey darken-4">
+          
+            <v-radio-group v-model="sort" row>
+              <v-radio
+                label="Ascending sort"
+                color="orange darken-1"
+                value="ascending"
+                dark
+              ></v-radio>
+              
+              <v-radio
+                label="Descanding sort"
+                color="orange darken-1"
+                value="descanding"
+                dark 
+                ></v-radio>
+              </v-radio-group>
+
+              <v-flex>
+                <v-checkbox
+                  label="Highest price first"
+                  color="yellow darken-1"
+                  value="priceHigh"
+                  v-model="sortPrice"
+                  hide-details
+                  dark
+                ></v-checkbox>
+                <v-checkbox
+                  label="Lowest price first"
+                  color="yellow darken-1"
+                  value="priceLow"
+                  v-model="sortPrice"
+                  hide-details
+                  dark
+                ></v-checkbox>
+            
+                <v-checkbox
+                  label="Include objects with no image"
+                  v-model="selected"
+                  color="green darken-1"
+                  value="image"
+                  hide-details
+                  dark
+                ></v-checkbox>
+              </v-flex>
+              
+            </v-card>
+          </v-menu>
+          
         <v-badge class="margin_badge" :color="metaMaskColor" overlap>  
           <v-icon slot="badge" color="white">{{metaMaskIcon}}</v-icon>
           
@@ -146,12 +210,16 @@
             
           </v-menu>
         </v-badge>
+        
     </v-toolbar>
     <v-content>
       <router-view 
         :message="message" 
         :cart="cart"
         :priceEthUsd="priceEthUsd"
+        :image="selected"
+        :sort="sort"
+        :sortPrice="sortPrice"
       ></router-view>
     </v-content>
     <v-footer color="black" app fixed>
@@ -177,6 +245,9 @@ export default {
     message: "",
     menu: false,
     priceEthUsd: 0,
+    sort: "ascending",
+    sortPrice: "priceHigh",
+    selected: "image",
     cart: []
   }),
   created() {
@@ -203,7 +274,7 @@ export default {
 
     setInterval(() => {
       this.getEthUsd();
-    }, 30000);
+    }, 60000);
 
   },
   methods: {
@@ -273,14 +344,7 @@ export default {
       });
     },
     getTotal: function() {
-      return this.cart.reduce((acc, obj) => acc + obj.price, 0) 
-    }
-  },
-  watch: {
-    address(newVal, oldVal) {
-      if (this.network === "main") {
-        this.address = newVal;
-      }
+      return this.cart.reduce((acc, obj) => acc + obj.price, 0);
     }
   }
 };
@@ -291,7 +355,7 @@ main {
   background: linear-gradient(#e3e338, #ffffff, #e3e338);
 }
 #MetaMask {
-  margin-left: 2vh;
+  margin-left: 1vh;
   width: 30px;
 }
 .margin_badge {
@@ -312,6 +376,16 @@ main {
   border-width: 7px;
   width: 300px;
 }
+.settings {
+  margin-top: 2vh;
+  border-style: solid;
+  border-width: 7px;
+  padding: 1vh;
+  width: 350px;
+}
+.settings_margin {
+  margin-right: 1vw;
+}
 .pointerCopy {
   cursor: copy;
 }
@@ -331,5 +405,8 @@ main {
 }
 .rounded {
   border-radius: 25px;
+}
+.radio-group {
+  margin-top: 1vh;
 }
 </style>

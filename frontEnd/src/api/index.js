@@ -4,36 +4,36 @@ import Vue from 'vue'
 const baseUrl = "http://localhost:3000"
 
 export default {
- getStars: (page, cb) => {
-    axios.post(`${baseUrl}/stars/`, { page})
+ getStars: (page, sort, sortPrice, cb) => {
+    axios.post(`${baseUrl}/stars/`, { page, sort, sortPrice })
     .then(result => {
     cb(result.data.data.docs)
         })
     .catch(console.log)
  },
- getPlanets: (cb) => {
-    axios.get(`${baseUrl}/planets`)
+ getPlanets: (sort, sortPrice, cb) => {
+    axios.post(`${baseUrl}/planets`, { sort, sortPrice })
     .then(result => {
     cb(result.data.data)
         })
     .catch(console.log)
  },
- getPlanetSatelites: (cb) => {
-    axios.get(`${baseUrl}/planetSatelites`)
+ getPlanetSatelites: (sort, sortPrice, cb) => {
+    axios.post(`${baseUrl}/planetSatelites`, { sort, sortPrice })
     .then(result => {
     cb(result.data.data)
         })
     .catch(console.log)
  },
- getDwarfPlanet: (cb) => {
-    axios.get(`${baseUrl}/dwarfPlanet`)
+ getDwarfPlanet: (sort, sortPrice, cb) => {
+    axios.post(`${baseUrl}/dwarfPlanet`, { sort, sortPrice })
     .then(result => {
     cb(result.data.data)
         })
     .catch(console.log)
  },
- getExoplanets: (page, cb) => {
-   axios.post(`${baseUrl}/exoplanets`, { page})
+ getExoplanets: (page, image, sort, sortPrice, cb) => {
+   axios.post(`${baseUrl}/exoplanets`, { page, image, sort, sortPrice })
    .then(result => {
    cb(result.data.data.docs)
        })
@@ -42,7 +42,6 @@ export default {
  getEthUsd: (cb) => {
    axios.get(`${baseUrl}/EthUsd`)
    .then(result => {
-       console.log('result: ', result);
    cb(result.data.data)
        })
    .catch(console.log)

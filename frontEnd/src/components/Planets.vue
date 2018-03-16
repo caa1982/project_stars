@@ -8,7 +8,9 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{planet.name}}</div>
-                <div class="black--text body-1">Price: {{planet.price}} ETH ({{(planet.price*priceEthUsd).toFixed(0)}} USD)</div>
+                <div class="black--text body-1">Price: {{planet.price}} ETH 
+                  ({{(planet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
+                </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -43,7 +45,7 @@ import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
 export default {
   name: "Planets",
-  props: ["cart", "priceEthUsd"],
+  props: ["cart", "priceEthUsd", "sort", "sortPrice"],
   data() {
     return {
       planets: [],
@@ -51,18 +53,28 @@ export default {
     };
   },
   created() {
-    api.getPlanets(planets => {
-      console.log('planets: ', planets);
-      this.planets = planets;
-    });
+    this.getPlanets();
   },
   methods: {
+    getPlanets: function() {
+      api.getPlanets(this.sort, this.sortPrice, planets => {
+        this.planets = planets;
+      });
+    },
     addToCart: function(object) {
       EventBus.$emit("add", object);
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
     }
+  },
+  watch:{
+      sort: function() {
+        this.getPlanets();
+      },
+      sortPrice: function(){
+        this.getPlanets();
+      }
   }
 };
 </script>

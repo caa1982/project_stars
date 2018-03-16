@@ -2,13 +2,17 @@
     <v-flex xs12 sm10 offset-sm1>
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around row wrap text-xs-center>
-          <div v-if="exoplanets.length !=0" v-for="(exoplanet, index) in exoplanets" :key="index">
+          <div 
+          v-if="exoplanets.length !=0" 
+          v-for="(exoplanet, index) in exoplanets" :key="index">
           <v-card class="card_width" color="transparent">
             <v-card-media class="card_media" :src="exoplanet.img || 'http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg'"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{exoplanet.name}}</div>
-                <div class="black--text body-1">price: {{exoplanet.price}} ETH ({{(exoplanet.price*priceEthUsd).toFixed(0)}} USD) </div>
+                <div class="black--text body-1">price: {{exoplanet.price}} ETH 
+                  ({{(exoplanet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD) 
+                </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -44,12 +48,12 @@ import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
 export default {
   name: "Exoplanets",
-  props: ["cart", "priceEthUsd"],
+  props: ["cart", "priceEthUsd", 'image', 'sort', "sortPrice"],
   data() {
     return {
       exoplanets: [],
       loading: false,
-      page: 0,
+      page: 1,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
@@ -71,19 +75,36 @@ export default {
       var d = document.documentElement;
       var offset = d.scrollTop + window.innerHeight;
       var height = d.offsetHeight;
-        
+      
       if (offset === height) {
+        this.loading = true;
+        this.page++;
         this.getExoplanets();
       }
     },
     getExoplanets: function(){
-      this.page++;
-      this.loading = true;
-      api.getExoplanets(this.page, exoplanets => {
+      api.getExoplanets(this.page, this.image, this.sort, this.sortPrice, exoplanets => {
         this.exoplanets = this.exoplanets.concat(exoplanets);
         this.loading = false;
       });
+    },
+    clearGetNewExoplanets: function(){
+      this.exoplanets = [];
+      this.page = 1;
+      this.getExoplanets();
     }
+
+  },
+  watch:{
+      image: function() {
+        this.clearGetNewExoplanets();
+      },
+      sort: function() {
+        this.clearGetNewExoplanets();
+      },
+      sortPrice: function(){
+        this.clearGetNewExoplanets();
+      }
   }
 };
 </script>

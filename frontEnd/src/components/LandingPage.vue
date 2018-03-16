@@ -26,8 +26,8 @@
                         <v-flex text-xs-center>
                           <v-container id='meta-container'></v-container>
                           <div class="headline">This site requires Metamask</div>
-                          <span>Download it <span class="orange--text darken-4">here</span></span>
-                          <div>Learn how to use Metamask <span class="orange--text darken-4">here</span></div>
+                          <span>Download it <a :href="metamaskUrl"><span class="orange--text darken-4">here</span></a></span>
+                          <div>Learn how to use Metamask <a :href="metamaskVideo"><span class="orange--text darken-4">here</span></a></div>
                         </v-flex>
                       </v-card-title>
                       <v-alert color="orange darken-4" icon="priority_high" :value="true">
@@ -47,6 +47,8 @@
   export default {
     data: () => ({
       earth: Earth,
+      metaMaskUrl: "https://metamask.io/",
+      metaMaskVideo: "https://www.youtube.com/watch?v=2YeyTF5lalE",
       viewer: ModelViewer({
         pxNotRatio: false,
         width: 0.18,

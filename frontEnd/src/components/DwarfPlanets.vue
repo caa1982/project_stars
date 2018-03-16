@@ -8,7 +8,9 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{dwarfplanet.name}}</div>
-                <div class="black--text body-1">Price: {{dwarfplanet.price}} ETH ({{(dwarfplanet.price*priceEthUsd).toFixed(0)}} USD) </div>
+                <div class="black--text body-1">Price: {{dwarfplanet.price}} ETH 
+                  ({{(dwarfplanet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD) 
+                </div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -44,7 +46,7 @@ import { EventBus } from "@/modules/eventBus.js";
 
 export default {
   name: "DwarfPlanets",
-  props: ["cart", "priceEthUsd"],
+  props: ["cart", "priceEthUsd", "sort", "sortPrice"],
   data() {
     return {
       dwarfplanets: [],
@@ -52,16 +54,27 @@ export default {
     };
   },
   created() {
-    api.getDwarfPlanet(dwarfplanets => {
-      this.dwarfplanets = dwarfplanets;
-    });
+    this.getDwarfPlanet();
   },
   methods: {
+    getDwarfPlanet: function () {
+      api.getDwarfPlanet(this.sort, this.sortPrice, dwarfplanets => {
+        this.dwarfplanets = dwarfplanets;
+      });
+    },
     addToCart: function(object) {
       EventBus.$emit("add", object);
     },
     removeFromCart: function(object) {
       EventBus.$emit("remove", object);
+    }
+  },
+  watch:{
+    sort: function() {
+      this.getDwarfPlanet();
+    },
+     sortPrice: function(){
+      this.getDwarfPlanet();
     }
   }
 };

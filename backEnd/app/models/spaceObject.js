@@ -15,6 +15,7 @@ const spaceObjectSchema = new Schema({
 
 
 spaceObjectSchema.plugin(mongoosePaginate);
+spaceObjectSchema.index({ object: 1, hd: 1});
 
 const SpaceObjects = mongoose.model('SpaceObject', spaceObjectSchema);
 
