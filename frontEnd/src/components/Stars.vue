@@ -23,7 +23,7 @@
               <div>
                 <div class="headline" v-if="star.name === 'Sun'">{{star.name}}</div>
                 <div class="headline" v-else-if="star.name != 'Sun'">HD{{star.name}}</div>
-                <div class="black--text body-1">price: {{star.price}} ETH </div>
+                <div class="black--text body-1">price: {{star.price}} ETH ({{(star.price*priceEthUsd).toFixed(0)}} USD)</div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -67,7 +67,7 @@ export default {
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
-  props: ["cart"],
+  props: ["cart", "priceEthUsd"],
   methods: {
     getStars: function() {
       this.page++;

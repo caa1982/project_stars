@@ -51,3 +51,13 @@ exports.getPlanetSatelites = (req, res) => {
     res.send({data: result})
   })
 };
+
+exports.getEthUsd = (req, res) => {
+  var CoinMarketCap = require("node-coinmarketcap");
+  var coinmarketcap = new CoinMarketCap();
+  
+  coinmarketcap.get("Ethereum", coin => {
+    res.send({data: coin.price_usd}); 
+  });
+};
+

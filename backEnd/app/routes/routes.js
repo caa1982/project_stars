@@ -12,4 +12,6 @@ router.get("/dwarfPlanet", controller.getDwarfPlanets);
 
 router.get("/planetSatelites", controller.getPlanetSatelites);
 
+router.get("/EthUsd", controller.getEthUsd);
+
 module.exports = router;

@@ -115,7 +115,7 @@
                 </template>
             </v-list>
             <v-card-text class="card_cartBalance_margin indigo">
-              <div class="white--text">Total: {{ cart.reduce((acc, obj) => acc + obj.price, 0) }} <v-icon small>fab fa-ethereum</v-icon></div>
+              <div class="white--text">Total: {{ getTotal() }} <v-icon small>fab fa-ethereum</v-icon> / {{ (getTotal()*priceEthUsd).toFixed(0)}} USD</div>
             </v-card-text>
             <v-card-actions class="justify-center">
               <v-btn outline color="green" large>
@@ -148,7 +148,11 @@
         </v-badge>
     </v-toolbar>
     <v-content>
-      <router-view :message="message" :cart="cart"></router-view>
+      <router-view 
+        :message="message" 
+        :cart="cart"
+        :priceEthUsd="priceEthUsd"
+      ></router-view>
     </v-content>
     <v-footer color="black" app fixed>
        <v-layout row wrap justify-center>
@@ -159,6 +163,7 @@
 </template>
 <script>
 import MetaMask from "./api/modules/web3Connection.js";
+import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
 export default {
   data: () => ({
@@ -169,9 +174,9 @@ export default {
     metaMaskColor: "red",
     MetaMaskConnected: false,
     metaMaskBalance: 0,
-    intervalId: "",
     message: "",
     menu: false,
+    priceEthUsd: 0,
     cart: []
   }),
   created() {
@@ -179,17 +184,27 @@ export default {
       this.network = network;
       this.getMessage();
     });
-    this.intervalId = setInterval(() => {
+
+    setInterval(() => {
       this.addressMetaMask();
     }, 1000);
+
     this.cart = JSON.parse(localStorage.getItem("cart")) || [];
     EventBus.$on("add", object => {
       this.cart.push(object);
       localStorage.setItem("cart", JSON.stringify(this.cart));
     });
+
     EventBus.$on("remove", object => {
       this.deleteFromCart(object);
     });
+
+    this.getEthUsd();
+
+    setInterval(() => {
+      this.getEthUsd();
+    }, 30000);
+
   },
   methods: {
     addressMetaMask: async function() {
@@ -252,6 +267,14 @@ export default {
       this.cart = this.cart.filter(el => el.name !== object.name);
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
+    getEthUsd: function () {
+      api.getEthUsd(priceEth => {
+        this.priceEthUsd = priceEth;
+      });
+    },
+    getTotal: function() {
+      return this.cart.reduce((acc, obj) => acc + obj.price, 0) 
+    }
   },
   watch: {
     address(newVal, oldVal) {

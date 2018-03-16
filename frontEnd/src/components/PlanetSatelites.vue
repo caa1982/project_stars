@@ -8,7 +8,7 @@
             <v-card-title primary-title class="card_title justify-center">
               <div>
                 <div class="headline">{{planetSatelite.name}}</div>
-                <div class="black--text body-1">price: {{planetSatelite.price}} ETH </div>
+                <div class="black--text body-1">price: {{planetSatelite.price}} ETH ({{(planetSatelite.price*priceEthUsd).toFixed(0)}} USD)</div>
               </div>
             </v-card-title>
             <v-card-action>
@@ -44,7 +44,7 @@ import { EventBus } from "@/modules/eventBus.js";
 
 export default {
   name: "PlanetSatelites",
-  props: ["cart"],
+  props: ["cart", "priceEthUsd"],
   data() {
     return {
       planetSatelites: [],

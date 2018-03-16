@@ -38,5 +38,13 @@ export default {
    cb(result.data.data.docs)
        })
    .catch(console.log)
+ },
+ getEthUsd: (cb) => {
+   axios.get(`${baseUrl}/EthUsd`)
+   .then(result => {
+       console.log('result: ', result);
+   cb(result.data.data)
+       })
+   .catch(console.log)
  }
 }
