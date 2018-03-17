@@ -75,6 +75,25 @@ exports.getPlanetSatelites = (req, res) => {
   })
 };
 
+exports.getSearch = (req, res) => {
+
+  let query;
+  const string = req.body.search;
+
+  if(isNaN(req.body.search)){
+    query = { name: string.charAt(0).toUpperCase() + string.slice(1) };
+  } else {
+    query = { hd: req.body.search };
+  }
+  
+  SpaceObjectModel.findOne(query,  function (err, result) {
+    if(err) {
+      console.log(err)
+    }
+    res.send({data: result})
+  })
+};
+
 exports.getEthUsd = (req, res) => {
   var CoinMarketCap = require("node-coinmarketcap");
   var coinmarketcap = new CoinMarketCap();

@@ -39,6 +39,14 @@ export default {
        })
    .catch(console.log)
  },
+ search: (search, cb) => {
+     console.log('search: ', search);
+   axios.post(`${baseUrl}/search`, { search })
+   .then(result => {
+   cb(result.data.data)
+       })
+   .catch(console.log)
+ },
  getEthUsd: (cb) => {
    axios.get(`${baseUrl}/EthUsd`)
    .then(result => {

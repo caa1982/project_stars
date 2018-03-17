@@ -78,7 +78,9 @@
         <v-text-field
           solo
           flat
+          @keyup.enter.native="search(searchBar)"
           label="Search by ID/name"
+          v-model="searchBar"
           prepend-icon="search"
           v-if="MetaMaskConnected != false"
         ></v-text-field>
@@ -220,6 +222,7 @@
         :image="selected"
         :sort="sort"
         :sortPrice="sortPrice"
+        :query="query"
       ></router-view>
     </v-content>
     <v-footer color="black" app fixed>
@@ -248,6 +251,8 @@ export default {
     sort: "ascending",
     sortPrice: "priceHigh",
     selected: "image",
+    searchBar: "",
+    query: "",
     cart: []
   }),
   created() {
@@ -345,6 +350,14 @@ export default {
     },
     getTotal: function() {
       return this.cart.reduce((acc, obj) => acc + obj.price, 0);
+    },
+    search (input) {
+      if(this.$route.nsme != "SearchBar"){
+        this.$router.push({name:"SearchBar"})
+        this.query = input;
+      } else {
+        this.query = input;
+      }
     }
   }
 };

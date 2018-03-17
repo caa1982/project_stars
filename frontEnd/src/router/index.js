@@ -7,6 +7,7 @@ import Planets from '@/components/Planets'
 import PlanetSatelites from '@/components/PlanetSatelites'
 import DwarfPlanets from '@/components/DwarfPlanets'
 import Exoplanets from '@/components/Exoplanets'
+import SearchBar from '@/components/SearchBar'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/skyMap',
       name: 'SkyMap',
       component: SkyMap
+    },
+    {
+      path: '/searchBar',
+      name: 'SearchBar',
+      component: SearchBar
     }
   ]
 })
