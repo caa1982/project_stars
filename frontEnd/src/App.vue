@@ -261,7 +261,7 @@ export default {
       this.getMessage();
     });
 
-    setInterval(() => {
+    this.intervalMetamaskeId = setInterval(() => {
       this.addressMetaMask();
     }, 1000);
 
@@ -277,10 +277,14 @@ export default {
 
     this.getEthUsd();
 
-    setInterval(() => {
+    this.ethUsdIntervalId = setInterval(() => {
       this.getEthUsd();
     }, 60000);
 
+  },
+  destroyed() {
+      clearInterval(this.intervalMetamaskeId);
+      clearInterval(this.ethUsdIntervalId);
   },
   methods: {
     addressMetaMask: async function() {

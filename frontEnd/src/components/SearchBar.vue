@@ -39,7 +39,15 @@
                 <span class="white--text body-2"> {{object.info}} </span>
                 <v-divider class="innerDivider"></v-divider>
                 <div class="white--text">Learn more about {{object.name}}</div>
-                <a class="red--text" :href="`${wikipediaUrl} ${object.name}`" target="_blank">here</a>
+                <a class="red--text" 
+                  v-if="object.object === 'star'" 
+                  :href="`${wikipediaUrl} HD${object.name}`" 
+                  target="_blank">here</a>
+                <a class="red--text" 
+                   v-else-if="object.object != 'star'"
+                   :href="`${wikipediaUrl} 
+                    ${object.name}`" 
+                    target="_blank">here</a>
               </v-card-text>
                 </v-expansion-panel-content>
             </v-expansion-panel>

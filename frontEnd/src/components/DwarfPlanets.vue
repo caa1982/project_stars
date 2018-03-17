@@ -30,7 +30,7 @@
               <span class="white--text body-2"> {{dwarfplanet.info}} </span>
               <v-divider class="innerDivider"></v-divider>
               <div class="white--text">Learn more about {{dwarfplanet.name}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${dwarfplanet.name} _(dwarfplanet)`" target="_blank">here</a>
+              <a class="red--text" :href="`${wikipediaUrl} ${dwarfplanet.name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>

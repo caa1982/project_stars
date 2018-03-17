@@ -52,20 +52,26 @@
           </v-card>
           </div>
         </v-layout>
-        <v-progress-linear v-if="loading === true && stars.length != 0" :indeterminate="true"></v-progress-linear>
+        <v-dialog v-if="loading === true && stars.length != 0" v-model="dialogLoading" max-height="100px" max-width="100px" >
+          <Loading></Loading>
+        </v-dialog>
       </v-container>
     </v-flex>
 </template>
 <script>
 import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
+import Loading from "@/components/Loading";
+
 export default {
   name: "Stars",
+  components: { Loading },
   data() {
     return {
       stars: [],
       loading: false,
       page: 1,
+      dialogLoading: false,
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
@@ -116,6 +122,11 @@ export default {
       },
       sortPrice: function(){
         this.clearGetNewStars();
+      },
+      loading: function() {
+        if(this.loading === true){
+          this.dialogLoading = true;
+        }
       }
   }
 };
