@@ -52,7 +52,7 @@
           </v-card>
           </div>
         </v-layout>
-        <v-dialog v-if="loading === true && stars.length != 0" v-model="dialogLoading" max-height="70px" max-width="70px">
+        <v-dialog v-if="loading === true && stars.length != 0" v-model="dialogLoading" max-height="100" max-width="100">
           <Loading></Loading>
         </v-dialog>
       </v-container>
@@ -157,6 +157,9 @@ export default {
 }
 .margin_top {
   margin-top: 2vh;
+}
+.progress-circular {
+  position: absolute;
 }
 </style>
 
