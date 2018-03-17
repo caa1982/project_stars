@@ -361,11 +361,13 @@ export default {
       document.documentElement.scrollTop = 0;
     },
     search (input) {
-      if(this.$route.nsme != "SearchBar"){
+      if(this.$route.name != "SearchBar"){
         this.$router.push({name:"SearchBar"})
         this.query = input;
+        this.searchBar = '';
       } else {
         this.query = input;
+        this.searchBar = '';
       }
     }
   }
