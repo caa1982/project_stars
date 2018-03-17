@@ -12,8 +12,13 @@
               :src="`http://server1.sky-map.org/skywindow?object=HD${star.hd}`" 
               frameBorder="0" 
               sandbox="allow-scripts allow-same-origin"
-              v-if="star.name != 'Sun'"
+              v-if="star.name != 'Sun' && skyMap === true"
             ></IFRAME>
+            <v-card-media 
+              class="sun" 
+              src="https://img.purch.com/w/660/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAyNi84NTcvb3JpZ2luYWwvb2xkZXN0LWtub3duLXN0YXItaGQxNDAyODMuanBn"
+              v-else-if="star.name != 'Sun' && skyMap != true"
+            ></v-card-media>
             <v-card-media 
               class="sun" 
               :src="star.img"
@@ -75,7 +80,7 @@ export default {
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },
-  props: ["cart", "priceEthUsd", 'sort', "sortPrice"],
+  props: ["cart", "priceEthUsd", 'sort', "sortPrice", "skyMap"],
   methods: {
     getStars: function() {
       api.getStars(this.page, this.sort, this.sortPrice, stars => {
@@ -114,7 +119,7 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   watch:{
-      image: function() {
+      skyMap: function() {
         this.clearGetNewStars();
       },
       sort: function() {

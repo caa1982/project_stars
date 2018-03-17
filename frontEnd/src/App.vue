@@ -179,6 +179,13 @@
                   hide-details
                   dark
                 ></v-checkbox>
+                <v-checkbox
+                  label="Enable SkyMap on stars"
+                  color="indigo darken-1"
+                  v-model="skyMap"
+                  hide-details
+                  dark
+                ></v-checkbox>
             
                 <v-checkbox
                   label="Include objects with no image"
@@ -224,6 +231,7 @@
         :sort="sort"
         :sortPrice="sortPrice"
         :query="query"
+        :skyMap="skyMap"
       ></router-view>
     </v-content>
     <v-footer color="black" app fixed>
@@ -252,6 +260,7 @@ export default {
     sort: "ascending",
     sortPrice: "priceHigh",
     selected: "image",
+    skyMap: false,
     searchBar: "",
     query: "",
     cart: []
