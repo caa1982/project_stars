@@ -40,13 +40,18 @@
                 <v-divider class="innerDivider"></v-divider>
                 <div class="white--text">Learn more about {{object.name}}</div>
                 <a class="red--text" 
-                  v-if="object.object === 'star'" 
+                  v-if="!isNaN(object.name)" 
                   :href="`${wikipediaUrl} HD${object.name}`" 
                   target="_blank">here</a>
                 <a class="red--text" 
-                   v-else-if="object.object != 'star'"
+                   v-else-if="isNaN(object.name) && object.object != 'Planet'"
                    :href="`${wikipediaUrl} 
                     ${object.name}`" 
+                    target="_blank">here</a>
+                <a class="red--text" 
+                   v-else-if="isNaN(object.name) && object.object === 'Planet'"
+                   :href="`${wikipediaUrl} 
+                    ${object.name}_(planet)`" 
                     target="_blank">here</a>
               </v-card-text>
                 </v-expansion-panel-content>
