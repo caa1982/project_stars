@@ -7,7 +7,7 @@ exports.getStars = (req, res) => {
     object: "star",
   }
  
-  SpaceObjectModel.paginate(query, optionsPaginate(req), (err, result) => {
+  SpaceObjectModel.paginate(query, optionsPaginate(req, 9), (err, result) => {
     if(err) {
       console.log(err)
     }
@@ -28,7 +28,7 @@ exports.getExoPlanets = (req, res) => {
     img: req.body.image === "image" ? {$exists: true} : {$ne: ''}
   }
 
-  SpaceObjectModel.paginate(query, optionsPaginate(req), (err, result) => {
+  SpaceObjectModel.paginate(query, optionsPaginate(req, 15), (err, result) => {
     if(err) {
       console.log(err)
     }
@@ -108,7 +108,7 @@ const  options = (req) => {
   
 }
 
-const  optionsPaginate = (req) => {
+const  optionsPaginate = (req , limit) => {
   let sortPrice;
   let sort;
 
@@ -121,7 +121,7 @@ const  optionsPaginate = (req) => {
 
   const options = {
     page: req.body.page,
-    limit: 9, 
+    limit: limit, 
     sort: req.body.sortPrice === null ? sort : { price: sortPrice, name: sort }
   }
 

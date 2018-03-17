@@ -16,7 +16,7 @@
             ></IFRAME>
             <v-card-media 
               class="sun" 
-              src="https://img.purch.com/w/660/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzAyNi84NTcvb3JpZ2luYWwvb2xkZXN0LWtub3duLXN0YXItaGQxNDAyODMuanBn"
+              src="https://img.purch.com/w/660/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA3My85NTMvb3JpZ2luYWwvc2lyaXVzLmpwZw=="
               v-else-if="star.name != 'Sun' && skyMap != true"
             ></v-card-media>
             <v-card-media 
@@ -49,7 +49,8 @@
             <v-card-text>
               <span class="white--text body-2"> {{star.info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text">Learn more about HD{{star.hd}}</div>
+              <div class="white--text" v-if="star.name === 'Sun'">Learn more about the {{star.name}}</div>
+              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}}</div>
               <a class="red--text" :href="`${wikipediaUrl} ${isNaN(star.name) == true ? star.name : 'HD_' + star.name}`" target="_blank">here</a>
             </v-card-text>
               </v-expansion-panel-content>

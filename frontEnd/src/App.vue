@@ -57,7 +57,7 @@
             <v-icon color="indigo">fas fa-map</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="white--text">Sky Map</v-list-tile-title>
+            <v-list-tile-title class="white--text">SkyMap</v-list-tile-title>
           </v-list-tile-content>
       </v-list-tile>
       <v-list-tile :to="{name:'Stars'}">
