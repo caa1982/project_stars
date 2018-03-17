@@ -52,7 +52,7 @@
           </v-card>
           </div>
         </v-layout>
-        <v-dialog v-if="loading === true && stars.length != 0" v-model="dialogLoading" max-height="100px" max-width="100px" >
+        <v-dialog v-if="loading === true && stars.length != 0" v-model="dialogLoading" max-height="70px" max-width="70px">
           <Loading></Loading>
         </v-dialog>
       </v-container>

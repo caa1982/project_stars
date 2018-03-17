@@ -4,7 +4,7 @@
       <v-flex xs11> 
             <IFRAME class="iframe-placeholder" @load="load" frameBorder="0" :src="url" sandbox="allow-scripts allow-same-origin"></IFRAME>
       </v-flex>
-      <v-progress-circular :size="50" indeterminate color="red" v-if="loaded === false"></v-progress-circular>
+      <v-progress-circular :size="70" indeterminate color="red" v-if="loaded === false"></v-progress-circular>
     </v-layout>
   </v-container>
 </template>
