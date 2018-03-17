@@ -140,9 +140,10 @@
           offset-y
           :close-on-content-click="false"
           v-if="MetaMaskConnected != false"
+          fixed
         >
      
-          <v-icon class="settings_margin" color="grey darken-1" slot="activator" large>settings</v-icon>
+          <v-icon @click="scrollTop()" class="settings_margin" color="grey darken-1" slot="activator" large>settings</v-icon>
           <v-card class="settings grey darken-4">
           
             <v-radio-group v-model="sort" row>
@@ -354,6 +355,10 @@ export default {
     },
     getTotal: function() {
       return this.cart.reduce((acc, obj) => acc + obj.price, 0);
+    },
+    scrollTop () {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     },
     search (input) {
       if(this.$route.nsme != "SearchBar"){
