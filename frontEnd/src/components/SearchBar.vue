@@ -23,7 +23,9 @@
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline">{{object.name}}</div>
+                <div class="headline" v-if="!isNaN(object.name)">HD{{object.hd}}</div>
+                <div class="headline" v-else-if="isNaN(object.name)">{{object.name}}</div>
+                <div class="headline" v-if="isNaN(object.name) && object.object === 'star' && object.name !='Sun'">HD{{object.hd}}</div>
                 <div class="black--text body-1">Price: {{object.price}} ETH 
                   ({{(object.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
                 </div>

@@ -26,8 +26,9 @@
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline" v-if="!isNaN(star.name)">HD{{star.name}}</div>
+                <div class="headline" v-if="!isNaN(star.name)">HD{{star.hd}}</div>
                 <div class="headline" v-else-if="isNaN(star.name)">{{star.name}}</div>
+                <div class="headline" v-if="isNaN(star.name) && star.name !='Sun'">HD{{star.hd}}</div>
                 <div class="black--text body-1">price: {{star.price}} ETH 
                   ({{(star.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
                 </div>
@@ -49,17 +50,17 @@
             <v-card-text>
               <span class="white--text body-2"> {{star.info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text" v-if="star.name === 'Sun'">Learn more about the {{star.name}} on
+              <div class="white--text" v-if="isNaN(star.name)">Learn more about the {{star.name}} on
                 <a class="red--text" :href="`${wikipediaUrl} ${star.name}`" target="_blank">
                 Wikipedia
                 </a></div>
-              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}} on
+              <div class="white--text" v-if="!isNaN(star.name)">Learn more about HD{{star.hd}} on
                 <a class="red--text" :href="`${wikipediaUrl} ${'HD_' + star.hd}`" target="_blank">
                 Wikipedia
                 </a>
               </div>
 
-              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}} on
+              <div class="white--text" v-if="star.name != 'Sun'">Learn more about HD{{star.hd}} on
                 <a class="red--text" :href="`${SIMBAD} ${star.hd}`" target="_blank">
                 SIMBAD
                 </a>
