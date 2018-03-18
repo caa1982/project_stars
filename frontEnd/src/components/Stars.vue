@@ -49,9 +49,21 @@
             <v-card-text>
               <span class="white--text body-2"> {{star.info}} </span>
               <v-divider class="innerDivider"></v-divider>
-              <div class="white--text" v-if="star.name === 'Sun'">Learn more about the {{star.name}}</div>
-              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}}</div>
-              <a class="red--text" :href="`${wikipediaUrl} ${isNaN(star.name) == true ? star.name : 'HD_' + star.name}`" target="_blank">here</a>
+              <div class="white--text" v-if="star.name === 'Sun'">Learn more about the {{star.name}} on
+                <a class="red--text" :href="`${wikipediaUrl} ${star.name}`" target="_blank">
+                Wikipedia
+                </a></div>
+              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}} on
+                <a class="red--text" :href="`${wikipediaUrl} ${'HD_' + star.hd}`" target="_blank">
+                Wikipedia
+                </a>
+              </div>
+
+              <div class="white--text" v-if="star.name != 'Sun'">Learn more about the HD{{star.hd}} on
+                <a class="red--text" :href="`${SIMBAD} ${star.hd}`" target="_blank">
+                SIMBAD
+                </a>
+              </div>
             </v-card-text>
               </v-expansion-panel-content>
           </v-expansion-panel>
@@ -78,7 +90,8 @@ export default {
       loading: false,
       page: 1,
       dialogLoading: false,
-      wikipediaUrl: "https://en.wikipedia.org/wiki/"
+      wikipediaUrl: "https://en.wikipedia.org/wiki/",
+      SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+"
     };
   },
   props: ["cart", "priceEthUsd", 'sort', "sortPrice", "skyMap"],

@@ -38,21 +38,29 @@
               <v-card-text>
                 <span class="white--text body-2"> {{object.info}} </span>
                 <v-divider class="innerDivider"></v-divider>
-                <div class="white--text">Learn more about {{object.name}}</div>
-                <a class="red--text" 
-                  v-if="!isNaN(object.name)" 
-                  :href="`${wikipediaUrl} HD${object.name}`" 
-                  target="_blank">here</a>
-                <a class="red--text" 
-                   v-else-if="isNaN(object.name) && object.object != 'Planet'"
-                   :href="`${wikipediaUrl} 
+                <div class="white--text">Learn more about {{object.name}} on
+                  <a class="red--text" 
+                    v-if="!isNaN(object.name)" 
+                    :href="`${wikipediaUrl} HD${object.name}`" 
+                    target="_blank">Wikipedia</a>
+                  <a class="red--text" 
+                    v-else-if="isNaN(object.name) && object.object != 'Planet'"
+                    :href="`${wikipediaUrl} 
                     ${object.name}`" 
-                    target="_blank">here</a>
-                <a class="red--text" 
-                   v-else-if="isNaN(object.name) && object.object === 'Planet'"
-                   :href="`${wikipediaUrl} 
+                    target="_blank">Wikipedia</a>
+                  <a class="red--text" 
+                    v-else-if="isNaN(object.name) && object.object === 'Planet'"
+                    :href="`${wikipediaUrl} 
                     ${object.name}_(planet)`" 
-                    target="_blank">here</a>
+                    target="_blank">Wikipedia</a>
+                </div>
+          
+
+                <div class="white--text" v-if="object.object === 'star' && object.name != 'Sun'">Learn more about the HD{{object.hd}} on
+                  <a class="red--text" :href="`${SIMBAD} ${object.hd}`" target="_blank">
+                    SIMBAD
+                  </a>
+                </div>
               </v-card-text>
                 </v-expansion-panel-content>
             </v-expansion-panel>
@@ -70,7 +78,8 @@ export default {
   data() {
     return {
       object: [],
-      wikipediaUrl: "https://en.wikipedia.org/wiki/"
+      wikipediaUrl: "https://en.wikipedia.org/wiki/",
+      SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+"
     };
   },
   created() {
