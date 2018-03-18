@@ -8,8 +8,8 @@
           <v-card class="card_width" color="transparent">
             <v-card-media class="card_media" :src="exoplanet.img || 'http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg'"></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
-              <div>
-                <div class="headline">{{exoplanet.name}}</div>
+              <div style="overflow: hidden; text-overflow: ellipsis;">
+                <div class="headline overflow">{{exoplanet.name}}</div>
                 <div class="black--text body-1">price: {{exoplanet.price}} ETH 
                   ({{(exoplanet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD) 
                 </div>
@@ -138,8 +138,9 @@ export default {
 .margin_top {
   margin-top: 2vh;
 }
-div{
+.overflow{
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  
 }
 </style>
