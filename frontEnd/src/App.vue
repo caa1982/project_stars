@@ -111,11 +111,21 @@
                       <img v-else-if="item.object == 'exoplanet'" src="./assets/No-image-available.jpg">
                     </v-list-tile-avatar>
                     
+                  
                     <v-list-tile-content>
-                      <v-list-tile-title >{{item.name.slice(0, 15)}}</v-list-tile-title>
+                      <v-list-tile-title >{{item.name}}</v-list-tile-title>
                       <v-list-tile-title >{{item.price}} <v-icon small>fab fa-ethereum</v-icon></v-list-tile-title>
                     </v-list-tile-content>
+                  
+                    <v-flex xs6>
+                      <v-text-field 
+                      label="New ETH price" 
+                      v-model="item.newPrice"
+                      single-line></v-text-field>
+                    </v-flex>
+                    
                     <div class="pointer"><v-icon @click="deleteFromCart(item)" medium>clear</v-icon></div>
+                    
               
                   </v-list-tile>
                 </template>
@@ -127,7 +137,7 @@
               </div>
             </v-card-text>
             <v-card-actions class="justify-center" v-if="cart.length <= 5">
-              <v-btn outline color="green" large>
+              <v-btn @click="checkout()" outline color="green" large>
                 Check out
               </v-btn>
             </v-card-actions>
@@ -307,7 +317,7 @@ export default {
 
       if (
         this.address.length != 0 &&
-        this.network === "main" &&
+        this.network === "ropsten" &&
         this.MetaMaskConnected != true
       ) {
         this.drawer = true;
@@ -316,7 +326,7 @@ export default {
         this.metaMaskIcon = "done";
         this.MetaMaskConnected = true;
       } else if (
-        (this.network != "main" || this.address.length === 0) &&
+        (this.network != "ropsten" || this.address.length === 0) &&
         this.MetaMaskConnected == true
       ) {
         this.reset();
@@ -343,14 +353,14 @@ export default {
       this.getMessage();
     },
     getMessage: function() {
-      if (this.network === "main") {
+      if (this.network === "ropsten") {
         this.message = "LogIn into MetaMask Please";
       } else if (this.network === "") {
         this.message = "Please download MetaMask";
       } else {
         this.message = `You are connected to the ${
           this.network
-        } Netwrok please change to Main`;
+        } Netwrok please change to ropsten`;
       }
     },
     deleteFromCart: function(object) {
@@ -378,6 +388,11 @@ export default {
         this.query = input;
         this.searchBar = '';
       }
+    },
+    checkout () {
+      api.checkout(this.cart, result => {
+
+      })
     }
   }
 };
@@ -407,7 +422,7 @@ main {
   margin-top: 2vh;
   border-style: solid;
   border-width: 7px;
-  width: 300px;
+  width: 400px;
 }
 .settings {
   margin-top: 2vh;
