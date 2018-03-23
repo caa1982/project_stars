@@ -1,51 +1,5 @@
 [
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "name": "_tokenId",
-          "type": "uint256"
-        }
-      ],
-      "name": "approve",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "initDwarfPlanetsPrice",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "initPlanetsPrice",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
       "name": "totalSupply",
@@ -57,6 +11,24 @@
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "name": "_tokenName",
+          "type": "bytes32"
+        }
+      ],
+      "name": "changeTokenName",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -79,6 +51,24 @@
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        }
+      ],
+      "name": "changeTokenOwner",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
@@ -95,6 +85,69 @@
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenDetailsOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_address",
+          "type": "address"
+        }
+      ],
+      "name": "denyAccess",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "name": "_tokenPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "changeTokenPrice",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -137,125 +190,130 @@
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "initExoplanetsPrice",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "initStarsPrice",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "initSatellitesPrice",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
       "inputs": [
         {
-          "name": "_to",
+          "name": "",
           "type": "address"
-        },
-        {
-          "name": "_tokenId",
-          "type": "uint256"
         }
       ],
-      "name": "transfer",
-      "outputs": [],
+      "name": "accessAllowed",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownedTokensIndex",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "name": "_tokenId",
           "type": "uint256"
         }
       ],
-      "name": "takeOwnership",
-      "outputs": [],
+      "name": "tokenPriceOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
       "constant": false,
       "inputs": [
         {
-          "name": "newOwner",
+          "name": "_address",
           "type": "address"
         }
       ],
-      "name": "transferOwnership",
+      "name": "allowAccess",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
+      "constant": true,
       "inputs": [
         {
-          "name": "_sun",
-          "type": "uint256[]"
+          "name": "",
+          "type": "address"
         },
         {
-          "name": "_initPrice",
-          "type": "uint256[]"
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownedTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
       "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      "stateMutability": "view",
+      "type": "function"
     },
     {
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "fallback"
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenNameOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "anonymous": false,
@@ -302,57 +360,36 @@
       "type": "event"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "previousOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "OwnershipTransferred",
-      "type": "event"
-    },
-    {
       "constant": false,
       "inputs": [
         {
+          "name": "_to",
+          "type": "address"
+        },
+        {
           "name": "_tokenId",
-          "type": "uint256"
-        },
-        {
-          "name": "_tokenType",
-          "type": "string"
-        },
-        {
-          "name": "_tokenPrice",
           "type": "uint256"
         }
       ],
-      "name": "mint",
+      "name": "transfer",
       "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "constant": false,
       "inputs": [
         {
-          "name": "_tokenId",
-          "type": "uint256"
+          "name": "_to",
+          "type": "address"
         },
         {
-          "name": "_tokenPrice",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
-      "name": "changeTokenPriceByOwner",
+      "name": "approve",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -364,13 +401,9 @@
         {
           "name": "_tokenId",
           "type": "uint256"
-        },
-        {
-          "name": "_tokenPrice",
-          "type": "uint256"
         }
       ],
-      "name": "changeTokenPrice",
+      "name": "takeOwnership",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -380,55 +413,58 @@
       "constant": false,
       "inputs": [
         {
-          "name": "_tokensId",
-          "type": "uint256[]"
+          "name": "_from",
+          "type": "address"
         },
         {
-          "name": "_newTokensPrice",
-          "type": "uint256[]"
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_tokenId",
+          "type": "uint256"
         }
       ],
-      "name": "buyTokens",
+      "name": "clearApprovalAndTransfer",
       "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "constant": false,
       "inputs": [
         {
-          "name": "_tokenId",
-          "type": "uint256"
+          "name": "_to",
+          "type": "address"
         },
         {
-          "name": "_newTokenPrice",
+          "name": "_tokenId",
           "type": "uint256"
         }
       ],
-      "name": "buyToken",
+      "name": "addToken",
       "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": false,
       "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
         {
           "name": "_tokenId",
           "type": "uint256"
         }
       ],
-      "name": "tokenPriceOf",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
+      "name": "removeToken",
+      "outputs": [],
       "payable": false,
-      "stateMutability": "view",
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ]

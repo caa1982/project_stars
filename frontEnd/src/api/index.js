@@ -59,43 +59,50 @@ export default {
 
     const address = await web3Connection.eth.getAccounts();
 
-    cart.forEach(async (el, index) => {
-        const exist = await instance.methods.tokenOwner(el.id).send({from: String(address)})
+    Promise.all(cart.map(el => {
         
-        exist != 0 ? cart[index].exist= true : cart[index].exist= false; 
+        const exist = instance.methods.tokenDetailsOf(1).call({from: String(address)})
+        
+        return exist;
+        
+    })).then(exist => {
+        
+        exist.map( (el, index) => {
+            web3Connection.utils.isAddress(el.tokenOwner) ? cart[index].exist = true: cart[index].exist = false; 
+        })
+
+        const mint = cart.filter(el => el.exist === false)
+        const buy = cart.filter(el => el.exist === true)
+        
+        if(buy.length != 0) {
+            buyTokens(buy);
+        }
+
+        if(mint.length != 0) {
+            mintTokens(mint);
+        }
+        
+
     });
+
+    let array = (array) => new Object ({
+        name: array.map(el=> el.name),
+        newPrice: array.map(el=> el.newPrice),
+        price: array.map(el=> el.price),
+        object: array.map(el=> el.object),
+    })
     
-    const mint = cart.filter(el => el.exist === false);
-    const buy = cart.filter(el => el.exist === true);
+    const mintTokens = (mint) => {
+        const arr = array(mint);
+        console.log('arr: ', arr);
+        
+        //instance.methods.mintTokens(arr.id, arr.object, arr.newPrice, arr.name).send({ from: address , value: web3Connection.utils.toWei(arr.price.toString(), "ether") });
+    }
 
-    let ethAmount;
-    let tokenIds;
-    let tokenObject;
-    let tokenPrice;
-
-    if(mint.length > 1){
-        ethAmount = mint.reduce((acc, obj) => acc + obj.price, 0);
-        tokenIds = mint.map(el => el.hd);
-        tokenObject = mint.map(el => el.object);
-        tokenPrice = mint.map(el => el.newPrice || el.price).map(el => web3Connection.utils.toWei(String(el), "ether"));
-        //instance.methods.mintTokens(tokenIds, tokenObject, tokenPrice).send({ from: address , value: web3Connection.utils.toWei(ethAmount.toString(), "ether") });
-    } else if (mint.length === 1) {
-        ethAmount = mint.reduce((acc, obj) => acc + obj.price, 0);
-        tokenIds = mint.map(el => el.hd);
-        tokenObject = mint.map(el => el.object);
-        tokenPrice = mint.map(el => el.newPrice || el.price).map(el => web3Connection.utils.toWei(String(el), "ether"));
-        //instance.methods.mintTokens(tokenIds, tokenObject, tokenPrice).send({ from: address , value: web3Connection.utils.toWei(ethAmount.toString(), "ether") });
+    const buyTokens = (buy) => {
+        const arr = array(buy);
+        //instance.methods.buyTokens(object.id, object.newPrice).send({ from: address , value: web3Connection.utils.toWei(ethAmount.toString(), "ether") });
     }
     
-    if(buy.length > 1) {
-        ethAmount = buy.reduce((acc, obj) => acc + obj.price, 0);
-        tokenIds = buy.map(el => el.hd);
-        tokenPrice = buy.map(el => el.newPrice || el.price).map(el => web3Connection.utils.toWei(String(el), "ether"));
-        //instance.methods.buyTokens(tokenIds, tokenPrice).send({ from: address , value: web3Connection.utils.toWei(ethAmount.toString(), "ether") });
-    }else if (buy.length === 1) {
-        tokenPrice = buy.map(el => el.newPrice || el.price).map(el => web3Connection.utils.toWei(String(el), "ether"));
-        console.log('tokenPrice: ', tokenPrice);
-        //instance.methods.buyToken(cart[0].id, web3Connection.utils.toWei(tokenPrice.toString(), "ether")).send({ from: address , value: web3Connection.utils.toWei(tokenPrice.toString(), "ether") });
-    }
  }
 }

@@ -2,4 +2,4 @@
 const web3 = require("./web3Connection");
 const abi = require("./ABI/abi.json");
 
-module.exports = new web3.eth.Contract(abi, "0xEeBe61De9fdB4BcD4eC962BE5C8BcE9482A4893D"); 
+module.exports = new web3.eth.Contract(abi, "0xf8a7f2055d87e7d87bd39ce79bff44bdb7c119d9"); 

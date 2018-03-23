@@ -317,7 +317,7 @@ export default {
 
       if (
         this.address.length != 0 &&
-        this.network === "ropsten" &&
+        this.network === "private" &&
         this.MetaMaskConnected != true
       ) {
         this.drawer = true;
@@ -326,7 +326,7 @@ export default {
         this.metaMaskIcon = "done";
         this.MetaMaskConnected = true;
       } else if (
-        (this.network != "ropsten" || this.address.length === 0) &&
+        (this.network != "private" || this.address.length === 0) &&
         this.MetaMaskConnected == true
       ) {
         this.reset();
@@ -353,14 +353,14 @@ export default {
       this.getMessage();
     },
     getMessage: function() {
-      if (this.network === "ropsten") {
+      if (this.network === "private") {
         this.message = "LogIn into MetaMask Please";
       } else if (this.network === "") {
         this.message = "Please download MetaMask";
       } else {
         this.message = `You are connected to the ${
           this.network
-        } Netwrok please change to ropsten`;
+        } Netwrok please change to private`;
       }
     },
     deleteFromCart: function(object) {
