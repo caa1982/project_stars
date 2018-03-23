@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
-import instance from './modules/instance.js'
+import ERC721 from './modules/ERC721.js'
+import ERC721Buy from './modules/ERC721Buy.js'
 import web3Connection from './modules/web3Connection.js'
 const baseUrl = "http://localhost:3000"
 
@@ -56,26 +57,29 @@ export default {
    .catch(console.log)
  },
  checkout: async (cart, cb) => {
+     console.log('cart: ', cart[0].smartContractId);
 
     const address = await web3Connection.eth.getAccounts();
 
     Promise.all(cart.map(el => {
         
-        const exist = instance.methods.tokenDetailsOf(1).call({from: String(address)})
+        const exist = ERC721.methods.tokenDetailsOf(el.smartContractId).call({from: String(address)})
+       
         
         return exist;
         
     })).then(exist => {
         
         exist.map( (el, index) => {
-            web3Connection.utils.isAddress(el.tokenOwner) ? cart[index].exist = true: cart[index].exist = false; 
+            el[0] != 0 ? cart[index].exist = true: cart[index].exist = false; 
         })
 
         const mint = cart.filter(el => el.exist === false)
         const buy = cart.filter(el => el.exist === true)
+        console.log('buy: ', mint);
         
         if(buy.length != 0) {
-            buyTokens(buy);
+            //buyTokens(buy);
         }
 
         if(mint.length != 0) {
@@ -84,25 +88,34 @@ export default {
         
 
     });
-
-    let array = (array) => new Object ({
-        name: array.map(el=> el.name),
-        newPrice: array.map(el=> el.newPrice),
-        price: array.map(el=> el.price),
-        object: array.map(el=> el.object),
-    })
     
+    const details = (arr) => {
+        const tokensId = arr.map(el=> Number(el.smartContractId));
+        const objects = arr.map(el=> web3Connection.utils.asciiToHex(el.object));
+        const newPrice = arr.map(el=> Number(el.newPrice));
+        const tokensName = arr.map(el=> web3Connection.utils.asciiToHex(el.name.toLowerCase()));
+        const amountToPay = web3Connection.utils.toWei(String(arr.reduce((acc, el) => acc + el.price, 0)), "ether");
+
+        return {tokensId, objects, newPrice, tokensName, amountToPay}
+    }
     const mintTokens = (mint) => {
-        const arr = array(mint);
-        console.log('arr: ', arr);
-        
-        //instance.methods.mintTokens(arr.id, arr.object, arr.newPrice, arr.name).send({ from: address , value: web3Connection.utils.toWei(arr.price.toString(), "ether") });
+        const get = details(mint);
+        ERC721Buy.methods
+        .mintTokens(get.tokensId, get.objects, get.newPrice, get.tokensName)
+        .send({ from: String(address) , value: get.amountToPay });
+
     }
 
     const buyTokens = (buy) => {
-        const arr = array(buy);
-        //instance.methods.buyTokens(object.id, object.newPrice).send({ from: address , value: web3Connection.utils.toWei(ethAmount.toString(), "ether") });
+        const get = details(buy);
+
+        ERC721Buy.methods
+        .buyTokens(get.tokensId, get.newPrice)
+        .send({ from: String(address) , value: get.amountToPay });
+
     }
     
  }
 }
+
+// ERC721Buy.methods.mintTokens([15,16], [web3Connection.utils.asciiToHex("star"), web3Connection.utils.asciiToHex("star")], [500,  500], [web3Connection.utils.asciiToHex("hd1"), web3Connection.utils.asciiToHex("hd3")]).send({ from: String(address) , value: web3Connection.utils.toWei(String(0.3), "ether") });
