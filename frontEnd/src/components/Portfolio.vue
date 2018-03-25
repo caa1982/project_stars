@@ -2,6 +2,9 @@
 <v-flex xs12 sm10 offset-sm1>
     <v-container fill-height>
         <v-layout class="justify-center" justify-space-around row wrap text-xs-center>  
+            <div v-if="portfolio.length ===0" v-for="(item, index) in portfolio" :key="index">
+                <div class="black--text headline">You haven't bought any Items</div>
+            </div>
             <div v-if="portfolio.length !=0" v-for="(item, index) in portfolio" :key="index">
                 <v-card class="transparent margin_items_portfolio elevation-8">
                         <v-card-title primary-title class="justify-center">
@@ -20,11 +23,18 @@
                         <v-expansion-panel dark>
                             <v-expansion-panel-content>
                                 <div slot="header">Actions</div>
-                                        <v-layout class="justify-center" row wrap align-center>
+                                <v-divider></v-divider>
+                                    <v-card-text>
+                                        <v-layout class="justify-center" row wrap align-center>  
+                                            <v-flex xs2>
+                                                <div v-if="item.object == 'star' && item.name != 'Sun'" class="white--text headline">HD{{item.hd}}</div>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout class="justify-center" row wrap align-center> 
                                             <v-flex xs6>
                                                 <v-text-field
                                                     color="green darken-2"
-                                                    label="Sell Price in ETH"
+                                                    label="Selling Price in ETH"
                                                     :value="item.price"
                                                     :rules="[]"
                                                     dark
@@ -44,6 +54,7 @@
                                             </v-flex>
                                             <v-btn outline color="green darken-2">Change</v-btn>
                                         </v-layout>
+                                    </v-card-text>
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                  </v-card>
@@ -63,11 +74,14 @@ export default {
     }
   },
   created() {
-      api.getPortfolio(portfolio => {
-          this.portfolio = portfolio;
-      })
+      this.getPortfolio();
   },
   methods: {
+      getPortfolio() {
+        api.getPortfolio(portfolio => {
+          this.portfolio = portfolio;
+        })
+      }
   }
 }
 </script>

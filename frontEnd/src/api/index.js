@@ -74,8 +74,11 @@ export default {
  search: (search, cb) => {
    axios.post(`${baseUrl}/search`, { search })
    .then(result => {
-   cb(result.data.data)
-       })
+        tokenDetails([result.data.data], tokenDetails => {
+            result = mergeByKey("smartContractId", [result.data.data], tokenDetails).filter(el => el.smartContractId != 0)
+            cb(result)
+        })
+    })
    .catch(console.log)
  },
  getEthUsd: (cb) => {

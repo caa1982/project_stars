@@ -2,40 +2,40 @@
     <v-flex xs12 sm6 offset-sm3>
       <v-container class="margin_top" fluid grid-list-sm>
         <v-layout justify-space-around wrap text-xs-center>
-          <H1 v-if="object.length ===0">Seems their is no entry for {{query}}</H1>
-          <v-card v-if="object.length !=0" class="card_search_width" color="transparent">
+          <H1 v-if="object[0].length === 0">Seems their is no entry for {{query}}</H1>
+          <v-card v-if="object[0].length !=0" class="card_search_width" color="transparent">
             <IFRAME 
               class="iframe_search_stars" 
-              :src="`http://server1.sky-map.org/skywindow?object=HD${object.hd}`" 
+              :src="`http://server1.sky-map.org/skywindow?object=HD${object[0].hd}`" 
               frameBorder="0" 
               sandbox="allow-scripts allow-same-origin"
-              v-if="object.object === 'star' && object.name != 'Sun' && skyMap === true"
+              v-if="object[0].object === 'star' && object[0].name != 'Sun' && skyMap === true"
             ></IFRAME>
             <v-card-media 
               class="card_search_media" 
               src="https://img.purch.com/w/660/aHR0cDovL3d3dy5zcGFjZS5jb20vaW1hZ2VzL2kvMDAwLzA3My85NTMvb3JpZ2luYWwvc2lyaXVzLmpwZw=="
-              v-else-if="object.object === 'star' && object.name != 'Sun' && skyMap != true"
+              v-else-if="object[0].object === 'star' && object[0].name != 'Sun' && skyMap != true"
             ></v-card-media>
             <v-card-media 
               class="card_search_media"
-              :src="object.img"
-              v-else-if="object.object != 'star' || object.name === 'Sun'"
+              :src="object[0].img"
+              v-else-if="object[0].object != 'star' || object[0].name === 'Sun'"
             ></v-card-media>
             <v-card-title primary-title class="card_title justify-center">
               <div>
-                <div class="headline" v-if="!isNaN(object.name)">HD{{object.hd}}</div>
-                <div class="headline" v-else-if="isNaN(object.name)">{{object.name}}</div>
-                <div class="headline" v-if="isNaN(object.name) && object.object === 'star' && object.name !='Sun'">HD{{object.hd}}</div>
-                <div class="black--text body-1">Price: {{object.price}} ETH 
-                  ({{(object.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
+                <div class="headline" v-if="!isNaN(object[0].name)">HD{{object[0].hd}}</div>
+                <div class="headline" v-else-if="isNaN(object[0].name)">{{object[0].name}}</div>
+                <div class="headline" v-if="isNaN(object[0].name) && object[0].object === 'star' && object[0].name !='Sun'">HD{{object[0].hd}}</div>
+                <div class="black--text body-1">Price: {{object[0].price}} ETH 
+                  ({{(object[0].price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
                 </div>
               </div>
             </v-card-title>
             <v-card-action>
-             <v-btn outline v-if="! cart.some(e => e.name === object.name)" @click="addToCart(object)" color="green">
+            <v-btn outline v-if="!cart.some(e => e.name === object[0].name) && object[0].owner != address" @click="addToCart(object)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.name === object.name)" @click="removeFromCart(object)" color="red">
+            <v-btn outline v-if="cart.some(e => e.name === object[0].name) || object[0].owner == address" @click="removeFromCart(object)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
@@ -43,28 +43,28 @@
                 <v-expansion-panel-content>
                   <div slot="header">Tell me more</div>
               <v-card-text>
-                <span class="white--text body-2"> {{object.info}} </span>
+                <span class="white--text body-2"> {{object[0].info}} </span>
                 <v-divider class="innerDivider"></v-divider>
-                <div v-if="!isNaN(object.name)"  class="white--text">Learn more about HD{{object.hd}} on
+                <div v-if="!isNaN(object[0].name)"  class="white--text">Learn more about HD{{object[0].hd}} on
                   <a class="red--text" 
-                    :href="`${wikipediaUrl} HD_${object.hd}`" 
+                    :href="`${wikipediaUrl} HD_${object[0].hd}`" 
                     target="_blank">Wikipedia</a>
                 </div>
-                <div v-else-if="isNaN(object.name)" class="white--text">Learn more about {{object.name}} on
+                <div v-else-if="isNaN(object[0].name)" class="white--text">Learn more about {{object[0].name}} on
                   <a class="red--text" 
-                    v-if="object.object != 'Planet'"
+                    v-if="object[0].object != 'Planet'"
                     :href="`${wikipediaUrl} 
-                    ${object.name}`" 
+                    ${object[0].name}`" 
                     target="_blank">Wikipedia</a>
                   <a class="red--text" 
-                    v-else-if="object.object === 'Planet'"
+                    v-else-if="object[0].object === 'Planet'"
                     :href="`${wikipediaUrl} 
-                    ${object.name}_(planet)`" 
+                    ${object[0].name}_(planet)`" 
                     target="_blank">Wikipedia</a>
                 </div>
           
-                <div class="white--text" v-if="object.object === 'star' && object.name != 'Sun'">Learn more about the HD{{object.hd}} on
-                  <a class="red--text" :href="`${SIMBAD} ${object.hd}`" target="_blank">
+                <div class="white--text" v-if="object[0].object === 'star' && object[0].name != 'Sun'">Learn more about the HD{{object[0].hd}} on
+                  <a class="red--text" :href="`${SIMBAD} ${object[0].hd}`" target="_blank">
                     SIMBAD
                   </a>
                 </div>
@@ -81,7 +81,7 @@ import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
 export default {
   name: "SearchBar",
-  props: ["priceEthUsd", "cart", "query", "skyMap"],
+  props: ["priceEthUsd", "cart", "query", "skyMap", "address"],
   data() {
     return {
       object: [],
@@ -96,6 +96,7 @@ export default {
     search: function() {
       this.object = [];
       api.search(this.query, object => {
+        console.log('object: ', object);
         this.object = object;
       });
     },
