@@ -1,6 +1,22 @@
 const mongoose          = require('mongoose');
 const SpaceObjectModel = require("../models/spaceObject");
 
+exports.getObjectsForPortfolio = (req, res) => {
+ 
+  const query = {
+    smartContractId: req.body.tokens,
+  }
+
+  SpaceObjectModel.find(query).exec( function (err, result) {
+    if(err) {
+      console.log(err)
+    }
+
+    res.send({data: result})
+  })
+
+};
+
 exports.getStars = (req, res) => {
     
   const query = {
@@ -17,7 +33,7 @@ exports.getStars = (req, res) => {
 
 exports.getPlanets = (req, res) => {
 
-  find(res, req, "Planet");
+  find(res, req, "planet");
 
 };
 
@@ -38,13 +54,13 @@ exports.getExoPlanets = (req, res) => {
 
 exports.getDwarfPlanets = (req, res) => {
 
-  find(res, req, "dwarf planet");
+  find(res, req, "dwarfPlanet");
 
 };
 
 exports.getPlanetSatelites = (req, res) => {
 
-  find(res, req, "Satellite");
+  find(res, req, "satellite");
 
 };
 

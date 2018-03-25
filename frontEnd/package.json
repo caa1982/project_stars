@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "array-merge-by-key": "^1.0.1",
     "axios": "^0.18.0",
     "dotenv": "^5.0.1",
     "metamask-logo": "^2.1.3",

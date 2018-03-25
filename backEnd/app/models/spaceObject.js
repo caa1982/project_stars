@@ -10,7 +10,8 @@ const spaceObjectSchema = new Schema({
     object: String,
     info: String,
     price: Number,
-    img: String
+    img: String,
+    smartContractId: Number
 });
 
 

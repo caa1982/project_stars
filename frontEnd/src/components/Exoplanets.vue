@@ -13,15 +13,19 @@
                 <div class="black--text body-1">price: {{exoplanet.price}} ETH 
                   ({{(exoplanet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD) 
                 </div>
+                <div class="black--text body-1" v-if="exoplanet.owner != 0">Owner:
+                  <a :href="`${etherscan}${exoplanet.owner}`" target="_blank">{{exoplanet.owner.substring(0, 8)}}</a>
+                </div>
+                <div class="black--text body-1" v-if="exoplanet.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
             <v-card-action>
-              <v-btn outline v-if="! cart.some(e => e.name === exoplanet.name)" @click="addToCart(exoplanet)" color="green">
-              <v-icon>add_shopping_cart</v-icon>
-            </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.name === exoplanet.name)" @click="removeFromCart(exoplanet)" color="red">
-              <v-icon>remove_shopping_cart</v-icon>
-            </v-btn>
+              <v-btn outline v-if="!cart.some(e => e.name === exoplanet.name) && exoplanet.owner != address" @click="addToCart(exoplanet)" color="green">
+                  <v-icon>add_shopping_cart</v-icon>
+                </v-btn>
+                <v-btn outline v-if="cart.some(e => e.name === exoplanet.name) || exoplanet.owner == address" @click="removeFromCart(exoplanet)" color="red">
+                  <v-icon>remove_shopping_cart</v-icon>
+              </v-btn>
             </v-card-action>
           </v-card>
           <v-card class="card_width margin_bottom">
@@ -52,7 +56,7 @@ import Loading from "@/components/Loading";
 export default {
   name: "Exoplanets",
   components: { Loading },
-  props: ["cart", "priceEthUsd", 'image', 'sort', "sortPrice"],
+  props: ["cart", "priceEthUsd", 'image', 'sort', "sortPrice", "address"],
   data() {
     return {
       exoplanets: [],
@@ -89,6 +93,7 @@ export default {
     },
     getExoplanets: function(){
       api.getExoplanets(this.page, this.image, this.sort, this.sortPrice, exoplanets => {
+        console.log('exoplanets: ', exoplanets);
         this.exoplanets = this.exoplanets.concat(exoplanets);
         this.loading = false;
       });

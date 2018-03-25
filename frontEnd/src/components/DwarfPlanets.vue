@@ -11,15 +11,19 @@
                 <div class="black--text body-1">Price: {{dwarfplanet.price}} ETH 
                   ({{(dwarfplanet.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD) 
                 </div>
+                <div class="black--text body-1" v-if="dwarfplanet.owner != 0">Owner:
+                  <a :href="`${etherscan}${dwarfplanet.owner}`" target="_blank">{{dwarfplanet.owner.substring(0, 8)}}</a>
+                </div>
+                <div class="black--text body-1" v-if="dwarfplanet.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline v-if="! cart.some(e => e.name === dwarfplanet.name)" @click="addToCart(dwarfplanet)" color="green">
-              <v-icon>add_shopping_cart</v-icon>
-            </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.name === dwarfplanet.name)" @click="removeFromCart(dwarfplanet)" color="red">
-              <v-icon>remove_shopping_cart</v-icon>
-            </v-btn>
+              <v-btn outline v-if="!cart.some(e => e.name === dwarfplanet.name) && dwarfplanet.owner != address" @click="addToCart(dwarfplanet)" color="green">
+                  <v-icon>add_shopping_cart</v-icon>
+                </v-btn>
+                <v-btn outline v-if="cart.some(e => e.name === dwarfplanet.name) || dwarfplanet.owner == address" @click="removeFromCart(dwarfplanet)" color="red">
+                  <v-icon>remove_shopping_cart</v-icon>
+              </v-btn>
             </v-card-action>
           </v-card>
           <v-card class="card_width margin_bottom">
@@ -46,7 +50,7 @@ import { EventBus } from "@/modules/eventBus.js";
 
 export default {
   name: "DwarfPlanets",
-  props: ["cart", "priceEthUsd", "sort", "sortPrice"],
+  props: ["cart", "priceEthUsd", "sort", "sortPrice", "address"],
   data() {
     return {
       dwarfplanets: [],

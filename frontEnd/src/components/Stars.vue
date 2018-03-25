@@ -32,13 +32,17 @@
                 <div class="black--text body-1">price: {{star.price}} ETH 
                   ({{(star.price*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD)
                 </div>
+                <div class="black--text body-1" v-if="star.owner != 0">Owner:
+                  <a :href="`${etherscan}${star.owner}`" target="_blank">{{star.owner.substring(0, 8)}}</a>
+                </div>
+                <div class="black--text body-1" v-if="star.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
             <v-card-action>
-            <v-btn outline v-if="! cart.some(e => e.name === star.name)" @click="addToCart(star)" color="green">
+            <v-btn outline v-if="!cart.some(e => e.name === star.name) && star.owner != address" @click="addToCart(star)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
-            <v-btn outline v-if=" cart.some(e => e.name === star.name)" @click="removeFromCart(star)" color="red">
+            <v-btn outline v-if="cart.some(e => e.name === star.name) || star.owner == address" @click="removeFromCart(star)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
             </v-card-action>
@@ -81,6 +85,7 @@
 import api from "@/api";
 import { EventBus } from "@/modules/eventBus.js";
 import Loading from "@/components/Loading";
+import MetaMask from "../api/modules/web3Connection.js";
 
 export default {
   name: "Stars",
@@ -91,11 +96,13 @@ export default {
       loading: false,
       page: 1,
       dialogLoading: false,
+      address: "",
       wikipediaUrl: "https://en.wikipedia.org/wiki/",
-      SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+"
+      SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+",
+      etherscan: "https://etherscan.io/address/"
     };
   },
-  props: ["cart", "priceEthUsd", 'sort', "sortPrice", "skyMap"],
+  props: ["cart", "priceEthUsd", 'sort', "sortPrice", "skyMap", "address"],
   methods: {
     getStars: function() {
       api.getStars(this.page, this.sort, this.sortPrice, stars => {
@@ -128,7 +135,7 @@ export default {
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
-    this.getStars();
+    this.getStars();  
   },
   destroyed: function() {
     window.removeEventListener("scroll", this.handleScroll);

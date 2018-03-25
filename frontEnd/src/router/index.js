@@ -9,6 +9,7 @@ import DwarfPlanets from '@/components/DwarfPlanets'
 import Exoplanets from '@/components/Exoplanets'
 import SearchBar from '@/components/SearchBar'
 import Loading from '@/components/Loading'
+import Portfolio from '@/components/Portfolio'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/loading',
       name: 'Loading',
       component: Loading
+    },
+    {
+      path: '/portfolio',
+      name: 'Portfolio',
+      component: Portfolio
     }
   ]
 })

@@ -60,7 +60,7 @@
             <v-list-tile-title class="white--text">SkyMap</v-list-tile-title>
           </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile :to="{name:'Stars'}">
+      <v-list-tile :to="{name:'Portfolio'}">
             <v-list-tile-action>
               <v-icon color="deep-purple">fas fa-briefcase</v-icon>
             </v-list-tile-action>
@@ -79,7 +79,7 @@
           solo
           flat
           @keyup.enter.native="search(searchBar)"
-          label="Search by ID/name"
+          label="Search by HD/name"
           v-model="searchBar"
           prepend-icon="search"
           v-if="MetaMaskConnected != false"
@@ -132,8 +132,8 @@
             </v-list>
             <v-card-text class="card_cartBalance_margin indigo">
               <div class="white--text" v-if="cart.length > 5">Please remove {{cart.length-5}} items, the max items you can buy at once is 5</div>
-              <div class="white--text" v-if="cart.length <= 5">Total: {{ getTotal() }} ETH / 
-                {{ (getTotal()*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD
+              <div class="white--text" v-if="cart.length <= 5">Total: {{ Math.round(cart.reduce((acc, obj) => acc + obj.price, 0)* 100)/100 }} ETH / 
+                {{ (Math.round(cart.reduce((acc, obj) => acc + obj.price, 0)* 100)/100*priceEthUsd).toFixed(0).toString().replace(/\B(?=(\d{3})+\b)/g, "'")}} USD
               </div>
             </v-card-text>
             <v-card-actions class="justify-center" v-if="cart.length <= 5">
@@ -242,6 +242,7 @@
         :sortPrice="sortPrice"
         :query="query"
         :skyMap="skyMap"
+        :address="address"
       ></router-view>
     </v-content>
     <v-footer color="black" app fixed>
@@ -275,7 +276,7 @@ export default {
     query: "",
     cart: []
   }),
-  created() {
+  async created() {
     MetaMask.eth.net.getNetworkType().then(network => {
       this.network = network;
       this.getMessage();
@@ -364,16 +365,13 @@ export default {
       }
     },
     deleteFromCart: function(object) {
-      this.cart = this.cart.filter(el => el.name !== object.name);
+      this.cart = this.cart.filter(el => el._id !== object._id);
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
     getEthUsd: function () {
       api.getEthUsd(priceEth => {
         this.priceEthUsd = priceEth;
       });
-    },
-    getTotal: function() {
-      return this.cart.reduce((acc, obj) => acc + obj.price, 0);
     },
     scrollTop () {
       document.body.scrollTop = 0;
@@ -391,7 +389,9 @@ export default {
     },
     checkout () {
       api.checkout(this.cart, result => {
-
+        console.log('result: ', result);
+        this.$router.push({ name: "Portfolio" });
+        this.cart= [];
       })
     }
   }

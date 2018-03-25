@@ -14,6 +14,8 @@ router.post("/planetSatelites", controller.getPlanetSatelites);
 
 router.post("/search", controller.getSearch);
 
+router.post("/portfolio", controller.getObjectsForPortfolio);
+
 router.get("/EthUsd", controller.getEthUsd);
 
 module.exports = router;
