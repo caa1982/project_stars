@@ -11,10 +11,9 @@ export default {
     const address = await web3Connection.eth.getAccounts();
 
     const tokens = await ERC721.methods.tokensOf(address[0]).call()
-    
+
     axios.post(`${baseUrl}/portfolio/`, { tokens })
     .then(result => {
-            
         tokenDetails(result.data.data, tokenDetails => {
             result = mergeByKey("smartContractId", result.data.data, tokenDetails).filter(el => el.smartContractId != 0)
             cb(result)

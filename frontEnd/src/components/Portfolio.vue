@@ -17,7 +17,12 @@
                                     <img src="http://www.hanedanrpg.com/photos/hanedanrpg/20/96700.jpg" alt="">
                                 </v-avatar>
                                 <div class="black--text headline">{{item.name}}</div>
-                                <div class="black--text subheading">{{item.object}}</div>
+                                <div class="black--text subheading">{{item.object}} 
+                                    <span v-if="item.object == 'star' && item.name != 'Sun'" class="black--text subheading"> (HD{{item.hd}})
+                                        </span></div>
+                                <div class="black--text subheading">Price: {{item.price}}
+                                    <v-icon color="black" small>fab fa-ethereum</v-icon>
+                                </div>
                             </div>
                         </v-card-title>
                         <v-expansion-panel dark>
@@ -25,14 +30,12 @@
                                 <div slot="header">Actions</div>
                                 <v-divider></v-divider>
                                     <v-card-text>
-                                        <v-layout class="justify-center" row wrap align-center>  
-                                            <v-flex xs2>
-                                                <div v-if="item.object == 'star' && item.name != 'Sun'" class="white--text headline">HD{{item.hd}}</div>
-                                            </v-flex>
+                                        <v-layout class="justify-center"> 
                                         </v-layout>
                                         <v-layout class="justify-center" row wrap align-center> 
-                                            <v-flex xs6>
+                                            <v-flex xs8>
                                                 <v-text-field
+                                                    prepend-icon="fab fa-ethereum"
                                                     color="green darken-2"
                                                     label="Selling Price in ETH"
                                                     :value="item.price"
@@ -43,8 +46,9 @@
                                             <v-btn outline color="green darken-2">Change</v-btn>
                                         </v-layout>
                                         <v-layout v-if="item.object == 'star'" class="justify-center" row wrap align-center>
-                                            <v-flex xs6>
+                                            <v-flex xs8>
                                                 <v-text-field
+                                                    prepend-icon="fas fa-exchange-alt"
                                                     color="green darken-2"
                                                     label="Name"
                                                     :value="item.name"
