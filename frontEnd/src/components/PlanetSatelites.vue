@@ -17,14 +17,14 @@
                 <div class="black--text body-1" v-if="planetSatelite.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
-            <v-card-action>
+            <v-card-actions class="justify-center">
             <v-btn outline v-if="!cart.some(e => e.name === planetSatelite.name) && planetSatelite.owner != address" @click="addToCart(planetSatelite)" color="green">
                 <v-icon>add_shopping_cart</v-icon>
               </v-btn>
               <v-btn outline v-if="cart.some(e => e.name === planetSatelite.name) || planetSatelite.owner == address" @click="removeFromCart(planetSatelite)" color="red">
                 <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
-            </v-card-action>
+            </v-card-actions>
           </v-card>
           <v-card class="card_width margin_bottom">
           <v-expansion-panel dark>
@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       planetSatelites: [],
+      etherscan: "https://etherscan.io/address/",
       wikipediaUrl: "https://en.wikipedia.org/wiki/",
     };
   },

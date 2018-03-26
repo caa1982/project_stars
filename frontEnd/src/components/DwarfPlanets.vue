@@ -17,14 +17,14 @@
                 <div class="black--text body-1" v-if="dwarfplanet.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
-            <v-card-action>
+            <v-card-actions class="justify-center">
               <v-btn outline v-if="!cart.some(e => e.name === dwarfplanet.name) && dwarfplanet.owner != address" @click="addToCart(dwarfplanet)" color="green">
                   <v-icon>add_shopping_cart</v-icon>
                 </v-btn>
                 <v-btn outline v-if="cart.some(e => e.name === dwarfplanet.name) || dwarfplanet.owner == address" @click="removeFromCart(dwarfplanet)" color="red">
                   <v-icon>remove_shopping_cart</v-icon>
               </v-btn>
-            </v-card-action>
+            </v-card-actions>
           </v-card>
           <v-card class="card_width margin_bottom">
           <v-expansion-panel dark>
@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       dwarfplanets: [],
+      etherscan: "https://etherscan.io/address/",
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },

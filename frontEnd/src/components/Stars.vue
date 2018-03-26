@@ -38,14 +38,14 @@
                 <div class="black--text body-1" v-if="star.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
-            <v-card-action>
+            <v-card-actions class="justify-center">
             <v-btn outline v-if="!cart.some(e => e.name === star.name) && star.owner != address" @click="addToCart(star)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
             <v-btn outline v-if="cart.some(e => e.name === star.name) || star.owner == address" @click="removeFromCart(star)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
-            </v-card-action>
+            </v-card-actions>
           </v-card>
           <v-card class="card_stars_width margin_bottom">
           <v-expansion-panel dark>
@@ -96,7 +96,6 @@ export default {
       loading: false,
       page: 1,
       dialogLoading: false,
-      address: "",
       wikipediaUrl: "https://en.wikipedia.org/wiki/",
       SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+",
       etherscan: "https://etherscan.io/address/"

@@ -19,14 +19,14 @@
                 <div class="black--text body-1" v-if="exoplanet.owner == 0">Not registered yet</div>
               </div>
             </v-card-title>
-            <v-card-action>
+            <v-card-actions class="justify-center">
               <v-btn outline v-if="!cart.some(e => e.name === exoplanet.name) && exoplanet.owner != address" @click="addToCart(exoplanet)" color="green">
                   <v-icon>add_shopping_cart</v-icon>
                 </v-btn>
                 <v-btn outline v-if="cart.some(e => e.name === exoplanet.name) || exoplanet.owner == address" @click="removeFromCart(exoplanet)" color="red">
                   <v-icon>remove_shopping_cart</v-icon>
               </v-btn>
-            </v-card-action>
+            </v-card-actions>
           </v-card>
           <v-card class="card_width margin_bottom">
           <v-expansion-panel dark>
@@ -63,6 +63,7 @@ export default {
       loading: false,
       page: 1,
       dialogLoading: false,
+      etherscan: "https://etherscan.io/address/",
       wikipediaUrl: "https://en.wikipedia.org/wiki/"
     };
   },

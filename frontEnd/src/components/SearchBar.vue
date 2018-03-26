@@ -31,14 +31,14 @@
                 </div>
               </div>
             </v-card-title>
-            <v-card-action>
+            <v-card-actions class="justify-center">
             <v-btn outline v-if="!cart.some(e => e.name === object[0].name) && object[0].owner != address" @click="addToCart(object)" color="green">
               <v-icon>add_shopping_cart</v-icon>
             </v-btn>
             <v-btn outline v-if="cart.some(e => e.name === object[0].name) || object[0].owner == address" @click="removeFromCart(object)" color="red">
               <v-icon>remove_shopping_cart</v-icon>
             </v-btn>
-            </v-card-action>
+            </v-card-actions>
             <v-expansion-panel dark>
                 <v-expansion-panel-content>
                   <div slot="header">Tell me more</div>
@@ -85,6 +85,7 @@ export default {
   data() {
     return {
       object: [],
+      etherscan: "https://etherscan.io/address/",
       wikipediaUrl: "https://en.wikipedia.org/wiki/",
       SIMBAD: "http://simbad.u-strasbg.fr/simbad/sim-basic?Ident=HD+"
     };

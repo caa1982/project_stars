@@ -259,8 +259,8 @@ import { EventBus } from "@/modules/eventBus.js";
 export default {
   data: () => ({
     drawer: null,
-    address: [],
     network: "",
+    address: [],
     metaMaskIcon: "not_interested",
     metaMaskColor: "red",
     MetaMaskConnected: false,
@@ -326,6 +326,7 @@ export default {
         this.metaMaskColor = "green";
         this.metaMaskIcon = "done";
         this.MetaMaskConnected = true;
+        this.getmetaMaskBalance();
       } else if (
         (this.network != "private" || this.address.length === 0) &&
         this.MetaMaskConnected == true
@@ -339,10 +340,8 @@ export default {
       }
     },
     getmetaMaskBalance: async function() {
-      const metaMaskBalance = await MetaMask.eth.getmetaMaskBalance(
-        this.address[0].toString()
-      );
-      this.metaMaskBalance = MetaMask.utils.fromWei(metaMaskBalance, "ether");
+      const balance = await MetaMask.eth.getBalance(this.address[0]);
+      this.metaMaskBalance = MetaMask.utils.fromWei(balance, "ether");
     },
     reset: function() {
       this.$router.push({ name: "LandingPage" });
@@ -389,7 +388,7 @@ export default {
     },
     checkout () {
       api.checkout(this.cart, result => {
-        console.log('result: ', result);
+        this.getmetaMaskBalance();
         this.$router.push({ name: "Portfolio" });
         this.cart= [];
       })
