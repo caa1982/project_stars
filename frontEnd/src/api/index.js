@@ -2,13 +2,13 @@ import axios from 'axios'
 import Vue from 'vue'
 import ERC721 from './modules/ERC721.js'
 import ERC721Buy from './modules/ERC721Buy.js'
-import web3Connection from './modules/web3Connection.js'
+import web3 from './modules/web3Connection.js'
 import mergeByKey from "array-merge-by-key";
 const baseUrl = "http://localhost:3000"
 
 export default {
  getPortfolio: async (cb) => {
-    const address = await web3Connection.eth.getAccounts();
+    const address = await web3.eth.getAccounts();
 
     const tokens = await ERC721.methods.tokensOf(address[0]).call()
 
@@ -88,7 +88,7 @@ export default {
    .catch(console.log)
  },
  checkout: async (cart, cb) => {
-    const address = await web3Connection.eth.getAccounts();
+    const address = await web3.eth.getAccounts();
 
     tokenDetails(cart, tokenDetails => {
       
@@ -111,17 +111,17 @@ export default {
     
     const details = (arr) => {
         const tokensId = arr.map(el=> Number(el.smartContractId));
-        const objects = arr.map(el=> web3Connection.utils.asciiToHex(el.object));
+        const objects = arr.map(el=> web3.utils.asciiToHex(el.object));
         const newPrice = arr.map(el=> Number(el.newPrice));
-        const tokensName = arr.map(el=> web3Connection.utils.asciiToHex(el.name));
-        const amountToPay = web3Connection.utils.toWei(String(Math.round(cart.reduce((acc, obj) => acc + obj.price, 0)* 100)/100), "ether");
+        const tokensName = arr.map(el=> web3.utils.asciiToHex(el.name));
+        const amountToPay = web3.utils.toWei(String(Math.round(arr.reduce((acc, obj) => acc + obj.price, 0)* 100)/100), "ether");
 
         return {tokensId, objects, newPrice, tokensName, amountToPay}
     }
     
     const mintTokens = (mint) => {
         const get = details(mint);
-      
+       
         ERC721Buy.methods
         .mintTokens(get.tokensId, get.objects, get.newPrice, get.tokensName)
         .send({ from: address[0], value: get.amountToPay })
@@ -131,12 +131,13 @@ export default {
 
     const buyTokens = (buy) => {
         const get = details(buy);
-
+        console.log('buy: ', get.tokensId);
+        console.log('get: ', address[0]);
+      
         ERC721Buy.methods
         .buyTokens(get.tokensId, get.newPrice)
         .send({ from: address[0], value: get.amountToPay })
         .on("receipt", receipt => cb(receipt));
-
     }
     
  }
