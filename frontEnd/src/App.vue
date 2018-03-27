@@ -71,7 +71,9 @@
     </v-list>
     </v-navigation-drawer>
     <v-toolbar color="black" app clipped-left>
-      <v-toolbar-side-icon color="yellow" @click.native="drawer = !drawer" v-if="MetaMaskConnected != false"></v-toolbar-side-icon>
+      <v-toolbar-side-icon class="ml-4" color="yellow" @click.native="drawer = !drawer" v-if="MetaMaskConnected != false">
+        <v-avatar size="40" color="yellow"><img src="./assets/hs_isotype.svg" alt=""></v-avatar>
+      </v-toolbar-side-icon>
       <span class="title ml-3 mr-5 white--text">Head In The Stars</span>
       
       <v-flex lg4 md2 sm2 xs2>

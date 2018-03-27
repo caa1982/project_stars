@@ -7,9 +7,9 @@
             <v-container>
               <v-layout d-block>
                 <v-flex text-xs-center>
-                  <h1 class="orange--text darken-1">Buying the Universe has never been easier</h1>
-                  <h2 class="white--text mt-4">Buy, sell and register Stars & other celestial bodies on the Ethereum BlockChain</h2>
-                  
+                  <h1 class="orange--text darken-1 mt-5">Buying the Universe has never been easier</h1>
+                  <h2 class="white--text mt-5">Buy, sell and register Stars & other celestial bodies on the Ethereum BlockChain</h2>
+                  <img class="logoImg mt-4" src="../assets/hs_logo.svg" alt="">
                 </v-flex>
               </v-layout>
              </v-container>
@@ -71,5 +71,8 @@
   }
   .bottom {
       margin-top: 5vh;
+  }
+  .logoImg {
+    height: 110px;
   }
 </style>
