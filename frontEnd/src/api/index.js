@@ -152,13 +152,13 @@ const tokenDetails = (array, cb) => {
   })).then(tokenDetails => {
 
        tokenDetails = tokenDetails.map((el, index) =>  
-             new Object({
+             ({
                 owner: el[0],
-                price : el[1] == 0 ? array[index].price : el[1],
+                price : el[1] == 0 ? array[index].price : Number(el[1]),
                 object: el[2] == "" ? array[index].object : el[2],
                 smartContractId: array[index].smartContractId,
                 name : el[4] == 0 ? array[index].name : el[4]
-            }))
+             }))
 
         cb(tokenDetails);
         
