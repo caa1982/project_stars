@@ -131,9 +131,7 @@ export default {
 
     const buyTokens = (buy) => {
         const get = details(buy);
-        console.log('buy: ', get.tokensId);
-        console.log('get: ', address[0]);
-      
+        
         ERC721Buy.methods
         .buyTokens(get.tokensId, get.newPrice)
         .send({ from: address[0], value: get.amountToPay })
